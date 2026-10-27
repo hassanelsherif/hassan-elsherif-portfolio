@@ -81,7 +81,7 @@ src/
   types/
     index.ts
 public/
-  resume/               # Place Hassan-ElSherif-CV.pdf here
+  resume/               
 tests/
   unit/
   e2e/
@@ -89,10 +89,6 @@ tests/
   ci.yml
 ```
 
-## Adding your CV
-
-Place `Hassan-ElSherif-CV.pdf` in `public/resume/`. The CV download link in the header and
-homepage will automatically point to `/resume/Hassan-ElSherif-CV.pdf`.
 
 ## Updating content
 
