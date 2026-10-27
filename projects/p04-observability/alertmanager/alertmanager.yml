@@ -1,0 +1,30 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ["alertname", "severity"]
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: "webhook-test"
+
+  routes:
+    - matchers:
+        - severity = critical
+      receiver: "webhook-test"
+      continue: false
+
+receivers:
+  # Test sink — logs alerts without sending real notifications
+  # Replace with email/slack/pagerduty in production
+  - name: "webhook-test"
+    webhook_configs:
+      - url: "http://app:3001/webhook-sink"
+        send_resolved: true
+
+inhibit_rules:
+  - source_matchers:
+      - severity = critical
+    target_matchers:
+      - severity = warning
+    equal: ["alertname"]

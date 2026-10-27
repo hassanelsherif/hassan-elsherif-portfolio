@@ -1,0 +1,70 @@
+replicaCount: 2
+
+image:
+  repository: ghcr.io/hassanelsherifx/p02-app  # reuses P02 demo app image
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 3001
+
+ingress:
+  enabled: true
+  className: nginx
+  host: app.localdev
+  path: /
+  pathType: Prefix
+
+resources:
+  requests:
+    cpu: "50m"
+    memory: "64Mi"
+  limits:
+    cpu: "200m"
+    memory: "128Mi"
+
+# Liveness probe — restart pod if app is hung
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 3001
+  initialDelaySeconds: 15
+  periodSeconds: 20
+  failureThreshold: 3
+
+# Readiness probe — only route traffic when app is ready
+readinessProbe:
+  httpGet:
+    path: /health
+    port: 3001
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  failureThreshold: 3
+
+# Rolling update strategy — zero-downtime deployments
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
+
+config:
+  APP_ENV: "kubernetes"
+  LOG_LEVEL: "info"
+
+# Secret values — override with --set or a sealed secret in production
+# Do NOT commit real values here
+secret:
+  APP_SECRET_KEY: "change-me-in-production"

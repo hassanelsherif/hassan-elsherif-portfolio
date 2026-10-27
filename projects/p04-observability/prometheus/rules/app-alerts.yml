@@ -1,0 +1,64 @@
+groups:
+  - name: app-alerts
+    rules:
+      # App is completely down
+      - alert: AppDown
+        expr: up{job="p04-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "P04 demo app is down"
+          description: "The p04-app target has been unreachable for more than 1 minute."
+
+      # High error rate (>10% of requests returning 5xx)
+      - alert: HighErrorRate
+        expr: |
+          (
+            rate(http_requests_total{job="p04-app", status_code=~"5.."}[2m])
+            /
+            rate(http_requests_total{job="p04-app"}[2m])
+          ) > 0.10
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate on p04-app"
+          description: "Error rate is {{ humanizePercentage $value }} over the last 2 minutes."
+
+      # High p95 latency
+      - alert: HighLatency
+        expr: |
+          histogram_quantile(0.95,
+            rate(http_request_duration_seconds_bucket{job="p04-app"}[5m])
+          ) > 0.5
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High p95 latency on p04-app"
+          description: "p95 latency is {{ humanizeDuration $value }} over the last 5 minutes."
+
+  - name: system-alerts
+    rules:
+      # High CPU usage
+      - alert: HighCpuUsage
+        expr: |
+          100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is above 80% for more than 5 minutes."
+
+      # Low available memory
+      - alert: LowMemory
+        expr: |
+          (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Low available memory"
+          description: "Available memory is below 10%."
