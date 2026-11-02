@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Github, CheckCircle, Terminal, ShieldCheck, BookOpen } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, ExternalLink, Github, CheckCircle, Terminal, ShieldCheck, BookOpen, Camera } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { getProjectBySlug, getAllProjectSlugs, getProjectDetails } from "@/content/projects";
@@ -147,6 +148,42 @@ export default function ProjectDetailPage({ params }: Props) {
           ))}
         </ul>
       </section>
+
+      {/* Evidence gallery — P04 only */}
+      {project.slug === "observability-and-incident-response" && (
+        <section aria-labelledby="evidence-heading" className="mb-10">
+          <div className="flex items-center gap-2 mb-4">
+            <Camera className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
+            <h2 id="evidence-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+              Evidence gallery
+            </h2>
+          </div>
+          <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+            Real screenshots from a live failure simulation. Timestamps visible in Prometheus — 2026-11-02.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { src: "/images/p04/01-grafana-app-up.png", alt: "Grafana dashboard showing App Availability UP with request rate traffic visible", caption: "1 — App healthy: Grafana showing UP status and live request rate" },
+              { src: "/images/p04/02-prometheus-appdown-pending.png", alt: "Prometheus alerts page showing AppDown alert in PENDING state", caption: "2 — AppDown alert PENDING after app container stopped" },
+              { src: "/images/p04/03-grafana-app-down.png", alt: "Grafana dashboard showing App Availability DOWN in red with request rate dropping to zero", caption: "3 — Grafana showing DOWN — request rate drops to zero" },
+              { src: "/images/p04/04-prometheus-resolved.png", alt: "Prometheus alerts page showing all alerts inactive after app recovery", caption: "4 — All alerts resolved after app container restarted" },
+            ].map((img) => (
+              <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
+                <Image
+                  src={img.src}
+                  alt={img.alt}
+                  width={800}
+                  height={450}
+                  className="w-full object-cover"
+                />
+                <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                  {img.caption}
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Stack */}
       <section aria-labelledby="stack-heading" className="mb-10">
