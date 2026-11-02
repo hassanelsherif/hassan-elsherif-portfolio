@@ -243,10 +243,10 @@ docker run --rm -v /var/run/docker.sock:/var/run/docker.sock \\
       },
       {
         title: "5. Rollback to previous image",
-        code: `docker pull ghcr.io/YOUR_USERNAME/p02-app:sha-<prev-sha>
+        code: `docker pull ghcr.io/hassanelsherif/p02-app:sha-<prev-sha>
 docker stop p02-app && docker rm p02-app
 docker run -d --name p02-app -p 3001:3001 \\
-  ghcr.io/YOUR_USERNAME/p02-app:sha-<prev-sha>
+  ghcr.io/hassanelsherif/p02-app:sha-<prev-sha>
 curl http://localhost:3001/health`,
       },
     ],
@@ -381,10 +381,11 @@ kind delete cluster --name p03-cluster`,
 docker-compose up -d
 docker-compose ps
 # All services: Up
-# App: http://localhost:3001
-# Prometheus: http://localhost:9090
-# Grafana: http://localhost:3000  (admin/admin)
-# Alertmanager: http://localhost:9093`,
+# App:          http://localhost:3001
+# Prometheus:   http://localhost:9090
+# Grafana:      http://localhost:3002  (admin/admin)
+# Alertmanager: http://localhost:9093
+# Note: Node Exporter disabled on Windows`,
       },
       {
         title: "2. Verify metrics are being scraped",
@@ -395,18 +396,24 @@ docker-compose ps
       },
       {
         title: "3. Generate traffic to populate dashboard",
-        code: `for i in $(seq 1 50); do
-  curl -s http://localhost:3001/ > /dev/null
-  curl -s http://localhost:3001/health > /dev/null
-  sleep 0.5
-done`,
+        code: `# Windows (PowerShell)
+for ($i=1; $i -le 50; $i++) {
+  curl -s http://localhost:3001/ | Out-Null
+  curl -s http://localhost:3001/health | Out-Null
+  Start-Sleep -Milliseconds 500
+}
+# Linux/Mac
+for i in $(seq 1 50); do curl -s http://localhost:3001/ > /dev/null; sleep 0.5; done`,
       },
       {
-        title: "4. Run failure simulation (triggers AppDown alert)",
-        code: `bash scripts/simulate-failure.sh
-# Watch alerts fire at: http://localhost:9090/alerts
-# Watch Alertmanager: http://localhost:9093/#/alerts
-# Grafana availability panel turns red`,
+        title: "4. Simulate app failure (triggers AppDown alert)",
+        code: `# Stop the app container
+docker stop p04-app
+# Watch at: http://localhost:9090/alerts
+# AppDown goes PENDING → FIRING after 1 minute
+# Grafana availability panel turns red
+# Recover:
+docker start p04-app`,
       },
       {
         title: "5. Trigger error rate alert",
