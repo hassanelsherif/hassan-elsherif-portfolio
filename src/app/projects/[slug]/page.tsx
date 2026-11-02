@@ -150,7 +150,7 @@ export default function ProjectDetailPage({ params }: Props) {
       </section>
 
       {/* Evidence gallery — P01 and P04 */}
-      {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code") && (
+      {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code" || project.slug === "aws-backup-and-disaster-recovery") && (
         <section aria-labelledby="evidence-heading" className="mb-10">
           <div className="flex items-center gap-2 mb-4">
             <Camera className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
@@ -169,6 +169,29 @@ export default function ProjectDetailPage({ params }: Props) {
                   { src: "/images/p01/01-terraform-apply.png", alt: "Terraform apply complete showing 11 resources added with real resource IDs", caption: "1 — Apply complete: 11 resources created with real IDs" },
                   { src: "/images/p01/02-terraform-idempotency.png", alt: "Terraform plan showing no changes — infrastructure matches configuration", caption: "2 — Idempotency check: 0 changes on second plan" },
                   { src: "/images/p01/03-terraform-destroy.png", alt: "Terraform destroy complete showing 11 resources destroyed", caption: "3 — Destroy complete: 11 resources removed, clean teardown" },
+                ].map((img) => (
+                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
+                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
+                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                      {img.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </>
+          )}
+
+          {project.slug === "aws-backup-and-disaster-recovery" && (
+            <>
+              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+                Real backup and restore exercise against LocalStack S3. RTO measured at 0.3 seconds — well within the 15-minute target. Timestamps visible — 2026-11-02.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  { src: "/images/p05/01-terraform-apply.png", alt: "Terraform apply output showing S3 bucket, encryption, IAM user and policy created", caption: "1 — Infrastructure provisioned: S3 bucket with SSE-AES256, IAM least-privilege user" },
+                  { src: "/images/p05/02-backup-complete.png", alt: "Backup script output showing archive created, checksums generated and uploaded to S3", caption: "2 — Backup complete: archive + SHA-256 checksums uploaded to S3" },
+                  { src: "/images/p05/03-restore-complete.png", alt: "Restore script output showing files downloaded, checksum verified, extracted and RTO of 0.3 seconds", caption: "3 — Restore complete: checksum verified, RTO = 0.3s ✓" },
+                  { src: "/images/p05/04-terraform-destroy.png", alt: "Terraform destroy output showing all resources destroyed cleanly", caption: "4 — Clean teardown: all resources destroyed" },
                 ].map((img) => (
                   <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
                     <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
