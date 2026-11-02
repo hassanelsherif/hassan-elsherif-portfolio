@@ -149,8 +149,8 @@ export default function ProjectDetailPage({ params }: Props) {
         </ul>
       </section>
 
-      {/* Evidence gallery — P04 only */}
-      {project.slug === "observability-and-incident-response" && (
+      {/* Evidence gallery — P01 and P04 */}
+      {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code") && (
         <section aria-labelledby="evidence-heading" className="mb-10">
           <div className="flex items-center gap-2 mb-4">
             <Camera className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
@@ -158,30 +158,51 @@ export default function ProjectDetailPage({ params }: Props) {
               Evidence gallery
             </h2>
           </div>
-          <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
-            Real screenshots from a live failure simulation. Timestamps visible in Prometheus — 2026-11-02.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {[
-              { src: "/images/p04/01-grafana-app-up.png", alt: "Grafana dashboard showing App Availability UP with request rate traffic visible", caption: "1 — App healthy: Grafana showing UP status and live request rate" },
-              { src: "/images/p04/02-prometheus-appdown-pending.png", alt: "Prometheus alerts page showing AppDown alert in PENDING state", caption: "2 — AppDown alert PENDING after app container stopped" },
-              { src: "/images/p04/03-grafana-app-down.png", alt: "Grafana dashboard showing App Availability DOWN in red with request rate dropping to zero", caption: "3 — Grafana showing DOWN — request rate drops to zero" },
-              { src: "/images/p04/04-prometheus-resolved.png", alt: "Prometheus alerts page showing all alerts inactive after app recovery", caption: "4 — All alerts resolved after app container restarted" },
-            ].map((img) => (
-              <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  width={800}
-                  height={450}
-                  className="w-full object-cover"
-                />
-                <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
-                  {img.caption}
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+
+          {project.slug === "aws-infrastructure-as-code" && (
+            <>
+              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+                Real Terraform execution against LocalStack. All 11 resources provisioned, idempotency verified, clean destroy confirmed.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {[
+                  { src: "/images/p01/01-terraform-apply.png", alt: "Terraform apply complete showing 11 resources added with real resource IDs", caption: "1 — Apply complete: 11 resources created with real IDs" },
+                  { src: "/images/p01/02-terraform-idempotency.png", alt: "Terraform plan showing no changes — infrastructure matches configuration", caption: "2 — Idempotency check: 0 changes on second plan" },
+                  { src: "/images/p01/03-terraform-destroy.png", alt: "Terraform destroy complete showing 11 resources destroyed", caption: "3 — Destroy complete: 11 resources removed, clean teardown" },
+                ].map((img) => (
+                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
+                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
+                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                      {img.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </>
+          )}
+
+          {project.slug === "observability-and-incident-response" && (
+            <>
+              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+                Real screenshots from a live failure simulation. Timestamps visible in Prometheus — 2026-11-02.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  { src: "/images/p04/01-grafana-app-up.png", alt: "Grafana dashboard showing App Availability UP with request rate traffic visible", caption: "1 — App healthy: Grafana showing UP status and live request rate" },
+                  { src: "/images/p04/02-prometheus-appdown-pending.png", alt: "Prometheus alerts page showing AppDown alert in PENDING state", caption: "2 — AppDown alert PENDING after app container stopped" },
+                  { src: "/images/p04/03-grafana-app-down.png", alt: "Grafana dashboard showing App Availability DOWN in red with request rate dropping to zero", caption: "3 — Grafana showing DOWN — request rate drops to zero" },
+                  { src: "/images/p04/04-prometheus-resolved.png", alt: "Prometheus alerts page showing all alerts inactive after app recovery", caption: "4 — All alerts resolved after app container restarted" },
+                ].map((img) => (
+                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
+                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
+                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                      {img.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </>
+          )}
         </section>
       )}
 
