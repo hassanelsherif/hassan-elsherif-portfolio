@@ -1,3 +1,4 @@
+
 # dependencies
 /node_modules
 /.pnp
@@ -39,3 +40,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Terraform
+**/.terraform/*
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# Keep Terraform dependency lock files
+!**/.terraform.lock.hcl
