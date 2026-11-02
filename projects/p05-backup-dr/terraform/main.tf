@@ -15,6 +15,9 @@ provider "aws" {
   skip_metadata_api_check     = var.use_localstack
   access_key                  = var.use_localstack ? "test" : null
   secret_key                  = var.use_localstack ? "test" : null
+
+  # Required for LocalStack S3 on Windows — prevents virtual-hosted-style URLs
+  s3_use_path_style = var.use_localstack
 }
 
 locals {
@@ -55,23 +58,17 @@ resource "aws_s3_bucket_public_access_block" "backup" {
   restrict_public_buckets = true
 }
 
-# Lifecycle: expire backups after 30 days
-resource "aws_s3_bucket_lifecycle_configuration" "backup" {
-  bucket = aws_s3_bucket.backup.id
-
-  rule {
-    id     = "expire-old-backups"
-    status = "Enabled"
-
-    filter {
-      prefix = "backups/"
-    }
-
-    expiration {
-      days = 30
-    }
-  }
-}
+# Lifecycle configuration — uncomment when using real AWS
+# LocalStack free tier does not fully support this resource
+# resource "aws_s3_bucket_lifecycle_configuration" "backup" {
+#   bucket = aws_s3_bucket.backup.id
+#   rule {
+#     id     = "expire-old-backups"
+#     status = "Enabled"
+#     filter { prefix = "backups/" }
+#     expiration { days = 30 }
+#   }
+# }
 
 # ── IAM: least-privilege backup user ────────────────────────────────────────
 
