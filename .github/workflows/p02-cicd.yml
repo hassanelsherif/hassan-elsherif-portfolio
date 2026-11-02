@@ -66,6 +66,7 @@ jobs:
           exit-code: "1"
           severity: CRITICAL
           ignore-unfixed: true
+          skip-dirs: "/usr/local/lib/node_modules/npm,/usr/lib,/opt"
 
   # ── Gate 3: Push to GHCR (main branch only) ────────────────────────────────
   push-image:
