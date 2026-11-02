@@ -38,27 +38,3 @@ groups:
         annotations:
           summary: "High p95 latency on p04-app"
           description: "p95 latency is {{ humanizeDuration $value }} over the last 5 minutes."
-
-  - name: system-alerts
-    rules:
-      # High CPU usage
-      - alert: HighCpuUsage
-        expr: |
-          100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 80
-        for: 5m
-        labels:
-          severity: warning
-        annotations:
-          summary: "High CPU usage"
-          description: "CPU usage is above 80% for more than 5 minutes."
-
-      # Low available memory
-      - alert: LowMemory
-        expr: |
-          (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes) * 100 < 10
-        for: 5m
-        labels:
-          severity: warning
-        annotations:
-          summary: "Low available memory"
-          description: "Available memory is below 10%."
