@@ -150,7 +150,7 @@ export default function ProjectDetailPage({ params }: Props) {
       </section>
 
       {/* Evidence gallery — P01 and P04 */}
-      {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code" || project.slug === "aws-backup-and-disaster-recovery") && (
+      {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code" || project.slug === "aws-backup-and-disaster-recovery" || project.slug === "secure-cicd-pipeline") && (
         <section aria-labelledby="evidence-heading" className="mb-10">
           <div className="flex items-center gap-2 mb-4">
             <Camera className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
@@ -169,6 +169,27 @@ export default function ProjectDetailPage({ params }: Props) {
                   { src: "/images/p01/01-terraform-apply.png", alt: "Terraform apply complete showing 11 resources added with real resource IDs", caption: "1 — Apply complete: 11 resources created with real IDs" },
                   { src: "/images/p01/02-terraform-idempotency.png", alt: "Terraform plan showing no changes — infrastructure matches configuration", caption: "2 — Idempotency check: 0 changes on second plan" },
                   { src: "/images/p01/03-terraform-destroy.png", alt: "Terraform destroy complete showing 11 resources destroyed", caption: "3 — Destroy complete: 11 resources removed, clean teardown" },
+                ].map((img) => (
+                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
+                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
+                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                      {img.caption}
+                    </figcaption>
+                  </figure>
+                ))}
+              </div>
+            </>
+          )}
+
+          {project.slug === "secure-cicd-pipeline" && (
+            <>
+              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+                Real GitHub Actions pipeline run — all 4 gates passed. Image pushed to GHCR with commit SHA tag. Trivy detected and blocked a real CRITICAL CVE in the base image npm internals, proving the scanner works.
+              </p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  { src: "/images/p02/01-pipeline-success.png", alt: "GitHub Actions showing both the P02 CI/CD pipeline and portfolio CI workflows passing with green checkmarks", caption: "1 — All 4 gates passed: lint/test → build/scan → push to GHCR → deploy" },
+                  { src: "/images/p02/02-ghcr-image.png", alt: "GitHub Container Registry showing p02-app image published with latest and SHA tags", caption: "2 — Immutable image pushed to GHCR: tagged latest + sha-fcf3bc1" },
                 ].map((img) => (
                   <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
                     <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
