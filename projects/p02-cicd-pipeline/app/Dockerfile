@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Copy dependency manifests first for layer caching
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install --omit=dev
 
 # ── Runtime stage ─────────────────────────────────────────────────────────────
 FROM node:20-alpine AS runtime
