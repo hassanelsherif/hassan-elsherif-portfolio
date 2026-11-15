@@ -75,10 +75,10 @@ export default function HomePage() {
           </div>
 
           {/* CTAs */}
-          <div className="mt-8 flex flex-wrap gap-3">
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
             >
               View projects
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -86,19 +86,12 @@ export default function HomePage() {
             <a
               href="/resume/Hassan-ElSherif-CV.pdf"
               download
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
               aria-label="Download CV PDF"
             >
               <Download className="w-4 h-4" aria-hidden="true" />
               Download CV
             </a>
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
-            >
-              <Mail className="w-4 h-4" aria-hidden="true" />
-              Contact
-            </Link>
           </div>
 
           {/* Verified social links */}
@@ -210,15 +203,6 @@ export default function HomePage() {
           ))}
         </div>
 
-        <div className="mt-8 text-center">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
-          >
-            View all 5 projects
-            <ArrowRight className="w-4 h-4" aria-hidden="true" />
-          </Link>
-        </div>
       </section>
 
       {/* ── Skills snapshot ────────────────────────────────── */}
@@ -287,14 +271,6 @@ export default function HomePage() {
               <Mail className="w-4 h-4" aria-hidden="true" />
               Get in touch
             </Link>
-            <a
-              href="/resume/Hassan-ElSherif-CV.pdf"
-              download
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
-            >
-              <Download className="w-4 h-4" aria-hidden="true" />
-              Download CV
-            </a>
           </div>
         </div>
       </section>
