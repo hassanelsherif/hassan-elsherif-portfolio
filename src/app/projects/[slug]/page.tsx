@@ -6,6 +6,8 @@ import { ArrowLeft, ExternalLink, Github, CheckCircle, Terminal, ShieldCheck, Bo
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { getProjectBySlug, getAllProjectSlugs, getProjectDetails } from "@/content/projects";
+import { evidence } from "@/content/evidence";
+import { projectCode } from "@/lib/utils";
 
 interface Props {
   params: { slug: string };
@@ -28,6 +30,7 @@ export default function ProjectDetailPage({ params }: Props) {
   const project = getProjectBySlug(params.slug);
   if (!project) notFound();
   const details = getProjectDetails(params.slug);
+  const gallery = evidence[project.slug];
 
   return (
     <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -43,7 +46,7 @@ export default function ProjectDetailPage({ params }: Props) {
       {/* Header */}
       <header className="mb-10">
         <div className="flex items-center gap-3 mb-3">
-          <span className="font-mono text-xs text-muted">P0{project.order}</span>
+          <span className="font-mono text-xs text-muted">{projectCode(project.order)}</span>
           <StatusBadge status={project.status} />
         </div>
         <h1 className="text-3xl sm:text-4xl font-bold text-fg mb-4">
@@ -149,8 +152,8 @@ export default function ProjectDetailPage({ params }: Props) {
         </ul>
       </section>
 
-      {/* Evidence gallery — P01 and P04 */}
-      {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code" || project.slug === "aws-backup-and-disaster-recovery" || project.slug === "secure-cicd-pipeline") && (
+      {/* Evidence gallery: screenshots at their real aspect ratio; click to open full size */}
+      {gallery && (
         <section aria-labelledby="evidence-heading" className="mb-10">
           <div className="flex items-center gap-2 mb-4">
             <Camera className="w-5 h-5 text-accent" aria-hidden="true" />
@@ -158,95 +161,35 @@ export default function ProjectDetailPage({ params }: Props) {
               Evidence gallery
             </h2>
           </div>
-
-          {project.slug === "aws-infrastructure-as-code" && (
-            <>
-              <p className="text-sm text-muted mb-5">
-                Real Terraform execution against LocalStack. All 11 resources provisioned, idempotency verified, clean destroy confirmed.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {[
-                  { src: "/images/p01/01-terraform-apply.png", alt: "Terraform apply complete showing 11 resources added with real resource IDs", caption: "1 — Apply complete: 11 resources created with real IDs" },
-                  { src: "/images/p01/02-terraform-idempotency.png", alt: "Terraform plan showing no changes — infrastructure matches configuration", caption: "2 — Idempotency check: 0 changes on second plan" },
-                  { src: "/images/p01/03-terraform-destroy.png", alt: "Terraform destroy complete showing 11 resources destroyed", caption: "3 — Destroy complete: 11 resources removed, clean teardown" },
-                ].map((img) => (
-                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
-                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
-                      {img.caption}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </>
-          )}
-
-          {project.slug === "secure-cicd-pipeline" && (
-            <>
-              <p className="text-sm text-muted mb-5">
-                Real GitHub Actions pipeline run — all 4 gates passed. Image pushed to GHCR with commit SHA tag. Trivy detected and blocked a real CRITICAL CVE in the base image npm internals, proving the scanner works.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { src: "/images/p02/01-pipeline-success.png", alt: "GitHub Actions showing both the P02 CI/CD pipeline and portfolio CI workflows passing with green checkmarks", caption: "1 — All 4 gates passed: lint/test → build/scan → push to GHCR → deploy" },
-                  { src: "/images/p02/02-ghcr-image.png", alt: "GitHub Container Registry showing p02-app image published with latest and SHA tags", caption: "2 — Immutable image pushed to GHCR: tagged latest + sha-fcf3bc1" },
-                ].map((img) => (
-                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
-                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
-                      {img.caption}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </>
-          )}
-
-          {project.slug === "aws-backup-and-disaster-recovery" && (
-            <>
-              <p className="text-sm text-muted mb-5">
-                Real backup and restore exercise against LocalStack S3. RTO measured at 0.3 seconds — well within the 15-minute target. Timestamps visible — 2026-11-02.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { src: "/images/p05/01-terraform-apply.png", alt: "Terraform apply output showing S3 bucket, encryption, IAM user and policy created", caption: "1 — Infrastructure provisioned: S3 bucket with SSE-AES256, IAM least-privilege user" },
-                  { src: "/images/p05/02-backup-complete.png", alt: "Backup script output showing archive created, checksums generated and uploaded to S3", caption: "2 — Backup complete: archive + SHA-256 checksums uploaded to S3" },
-                  { src: "/images/p05/03-restore-complete.png", alt: "Restore script output showing files downloaded, checksum verified, extracted and RTO of 0.3 seconds", caption: "3 — Restore complete: checksum verified, RTO = 0.3s ✓" },
-                  { src: "/images/p05/04-terraform-destroy.png", alt: "Terraform destroy output showing all resources destroyed cleanly", caption: "4 — Clean teardown: all resources destroyed" },
-                ].map((img) => (
-                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
-                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
-                      {img.caption}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </>
-          )}
-
-          {project.slug === "observability-and-incident-response" && (
-            <>
-              <p className="text-sm text-muted mb-5">
-                Real screenshots from a live failure simulation. Timestamps visible in Prometheus — 2026-11-02.
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {[
-                  { src: "/images/p04/01-grafana-app-up.png", alt: "Grafana dashboard showing App Availability UP with request rate traffic visible", caption: "1 — App healthy: Grafana showing UP status and live request rate" },
-                  { src: "/images/p04/02-prometheus-appdown-pending.png", alt: "Prometheus alerts page showing AppDown alert in PENDING state", caption: "2 — AppDown alert PENDING after app container stopped" },
-                  { src: "/images/p04/03-grafana-app-down.png", alt: "Grafana dashboard showing App Availability DOWN in red with request rate dropping to zero", caption: "3 — Grafana showing DOWN — request rate drops to zero" },
-                  { src: "/images/p04/04-prometheus-resolved.png", alt: "Prometheus alerts page showing all alerts inactive after app recovery", caption: "4 — All alerts resolved after app container restarted" },
-                ].map((img) => (
-                  <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
-                    <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
-                      {img.caption}
-                    </figcaption>
-                  </figure>
-                ))}
-              </div>
-            </>
-          )}
+          <p className="text-sm text-muted mb-6">{gallery.intro}</p>
+          <div className="space-y-8">
+            {gallery.images.map((img, i) => (
+              <figure key={img.src}>
+                <a
+                  href={img.src}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`Open full-size screenshot: ${img.caption}`}
+                  className="group inline-block max-w-full align-top rounded-md overflow-hidden border border-gray-200 dark:border-gray-800 bg-[#0A0F1C] hover:border-accent/60 transition-colors"
+                >
+                  {/* Never upscale: small terminal captures stay at their natural size */}
+                  <Image
+                    src={img.src}
+                    alt={img.alt}
+                    width={img.width}
+                    height={img.height}
+                    sizes={`(min-width: 896px) ${Math.min(img.width, 832)}px, 100vw`}
+                    style={{ width: img.width, maxWidth: "100%", height: "auto" }}
+                  />
+                </a>
+                <figcaption className="mt-2 text-xs text-muted">
+                  <span className="font-mono text-accent mr-2">Fig. {i + 1}</span>
+                  {img.caption}
+                  <span className="ml-2 opacity-70">· click to enlarge</span>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
         </section>
       )}
 

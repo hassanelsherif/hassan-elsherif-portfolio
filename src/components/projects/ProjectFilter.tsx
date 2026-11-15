@@ -2,14 +2,10 @@
 
 import { useState, useMemo } from "react";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import type { Project, ProjectStatus } from "@/types";
+import type { Project } from "@/types";
 
-const STATUS_OPTIONS: { value: ProjectStatus | "all"; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "completed", label: "Completed" },
-  { value: "in-progress", label: "In Progress" },
-  { value: "planned", label: "Planned" },
-];
+// A status filter was removed: every project is completed, so it never filtered anything.
+// Add it back once there are in-progress or planned projects.
 
 const TECH_OPTIONS = [
   "All",
@@ -29,46 +25,18 @@ interface ProjectFilterProps {
 }
 
 export function ProjectFilter({ projects }: ProjectFilterProps) {
-  const [statusFilter, setStatusFilter] = useState<ProjectStatus | "all">("all");
   const [techFilter, setTechFilter] = useState("All");
 
   const filtered = useMemo(() => {
-    return projects.filter((p) => {
-      const statusMatch = statusFilter === "all" || p.status === statusFilter;
-      const techMatch =
-        techFilter === "All" || p.technologies.some((t) => t.toLowerCase().includes(techFilter.toLowerCase()));
-      return statusMatch && techMatch;
-    });
-  }, [projects, statusFilter, techFilter]);
+    return projects.filter(
+      (p) => techFilter === "All" || p.technologies.some((t) => t.toLowerCase().includes(techFilter.toLowerCase()))
+    );
+  }, [projects, techFilter]);
 
   return (
     <div>
       {/* Filters */}
-      <div className="mb-8 space-y-4">
-        {/* Status filter */}
-        <div>
-          <p className="text-xs font-medium text-muted mb-2 uppercase tracking-wide">
-            Status
-          </p>
-          <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
-            {STATUS_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => setStatusFilter(opt.value)}
-                className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150 ${
-                  statusFilter === opt.value
-                    ? "bg-accent text-white"
-                    : "bg-gray-100 dark:bg-gray-800 text-muted hover:bg-gray-200 dark:hover:bg-gray-700"
-                }`}
-                aria-pressed={statusFilter === opt.value}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
+      <div className="mb-8">
         {/* Tech filter */}
         <div>
           <p className="text-xs font-medium text-muted mb-2 uppercase tracking-wide">
@@ -108,8 +76,8 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
         </div>
       ) : (
         <div className="text-center py-16 text-muted">
-          <p className="text-lg font-medium mb-1">No projects match these filters</p>
-          <p className="text-sm">Try selecting different status or technology options.</p>
+          <p className="text-lg font-medium mb-1">No projects use {techFilter} yet</p>
+          <p className="text-sm">Try another technology.</p>
         </div>
       )}
     </div>

@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { Send, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { contactSchema } from "@/lib/validation";
 import { cn } from "@/lib/utils";
+import { profile } from "@/content/profile";
 
 interface FieldErrors {
   name?: string;
@@ -207,8 +208,8 @@ export function ContactForm() {
           <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" aria-hidden="true" />
           <span>
             Something went wrong. Please try again or email me directly at{" "}
-            <a href="mailto:hassanelsherif73x@gmail.com" className="underline font-medium">
-              hassanelsherif73x@gmail.com
+            <a href={`mailto:${profile.email}`} className="underline font-medium">
+              {profile.email}
             </a>
           </span>
         </div>

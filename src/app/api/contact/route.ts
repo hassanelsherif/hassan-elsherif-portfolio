@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { contactSchema } from "@/lib/validation";
 import { sendContactEmail } from "@/lib/email";
+import { profile } from "@/content/profile";
 
 // Simple in-memory rate limiter — resets on cold start
 const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
@@ -64,8 +65,7 @@ export async function POST(req: NextRequest) {
     console.error("[contact] RESEND_API_KEY not configured");
     return NextResponse.json(
       {
-        error:
-          "Email delivery is not configured. Please contact me directly at hassanelsherif73x@gmail.com",
+        error: `Email delivery is not configured. Please contact me directly at ${profile.email}`,
         fallback: true,
       },
       { status: 503 }

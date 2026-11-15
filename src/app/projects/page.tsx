@@ -15,7 +15,7 @@ export default function ProjectsPage() {
       <SectionHeading
         label="Lab projects"
         title="DevOps Portfolio"
-        subtitle="Five independently verifiable projects built from scratch. Each includes an architecture diagram, versioned infrastructure code, runbook, and evidence gallery. Projects labeled as personal labs; not production employment claims."
+        subtitle="Five personal labs built from scratch. Each includes versioned infrastructure code, an architecture diagram, a runbook and screenshots from a real run. These are hands-on labs, not production work for an employer."
       />
 
       <ProjectFilter projects={projects} />

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { ExternalLink, ArrowRight, Boxes } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { cn } from "@/lib/utils";
+import { cn, projectCode } from "@/lib/utils";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
@@ -44,7 +44,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
       {/* Card header */}
       <div className="p-5 pb-0 flex items-start justify-between gap-3">
         <span className="font-mono text-xs text-muted select-none">
-          P0{project.order}
+          {projectCode(project.order)}
         </span>
         <StatusBadge status={project.status} />
       </div>

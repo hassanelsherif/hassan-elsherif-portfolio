@@ -51,11 +51,6 @@ export default function AboutPage() {
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted">
                       {cat.label}
                     </p>
-                    {"note" in cat && cat.note ? (
-                      <span className="text-[10px] text-amber-600 dark:text-amber-400 font-normal">
-                        — {cat.note}
-                      </span>
-                    ) : null}
                   </div>
                   <div className="flex flex-wrap gap-1.5">
                     {cat.skills.map((skill) => (

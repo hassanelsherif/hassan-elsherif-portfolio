@@ -37,8 +37,7 @@ export const skillCategories = [
     skills: ["Bash", "Python", "PostgreSQL", "MySQL"],
   },
   {
-    label: "DevOps Labs",
-    note: "Personal lab demonstrations",
+    label: "DevOps",
     skills: ["Docker", "Kubernetes", "Terraform", "Jenkins", "GitHub Actions", "Git"],
   },
 ];

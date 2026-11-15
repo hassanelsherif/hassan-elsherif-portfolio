@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import type { ContactFormValues } from "@/lib/validation";
+import { profile } from "@/content/profile";
 
 // Only instantiate on the server — RESEND_API_KEY must never be in client bundles
 function getResendClient() {
@@ -12,7 +13,7 @@ function getResendClient() {
 
 export async function sendContactEmail(data: ContactFormValues): Promise<void> {
   const resend = getResendClient();
-  const toEmail = process.env.CONTACT_TO_EMAIL ?? "hassanelsherif73x@gmail.com";
+  const toEmail = process.env.CONTACT_TO_EMAIL ?? profile.email;
 
   // Sanitize header values to prevent header injection
   const safeName = data.name.replace(/[\r\n]/g, " ").slice(0, 100);

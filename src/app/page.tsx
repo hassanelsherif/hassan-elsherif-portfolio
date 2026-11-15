@@ -7,7 +7,7 @@ import { ProjectCard } from "@/components/projects/ProjectCard";
 import { TerminalCard } from "@/components/home/TerminalCard";
 import { profile, skillCategories } from "@/content/profile";
 import { projects } from "@/content/projects";
-import { roles } from "@/content/experience";
+import { certifications, roles } from "@/content/experience";
 
 export const metadata: Metadata = {
   title: "Hassan El-Sherif | Cloud & DevOps Engineer",
@@ -28,8 +28,10 @@ const HIGHLIGHT_TECHS = [
 ];
 
 export default function HomePage() {
-  const featuredProjects = projects.filter((p) => p.featured).slice(0, 3);
+  // Only projects with evidence screenshots are featured on the home page
+  const featuredProjects = projects.filter((p) => p.featured && p.coverImage).slice(0, 3);
   const currentRole = roles[0];
+  const latestCert = certifications[0];
 
   return (
     <>
@@ -125,53 +127,34 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ── Experience preview ──────────────────────────────── */}
-      <section
-        aria-labelledby="experience-heading"
-        className="px-4 sm:px-6 lg:px-8 py-16 max-w-6xl mx-auto border-t border-gray-200 dark:border-gray-800"
-      >
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">
-              Career
-            </p>
-            <h2 id="experience-heading" className="text-2xl font-bold text-fg">
-              Experience
-            </h2>
-          </div>
-          <Link
-            href="/experience"
-            className="text-sm text-accent hover:underline flex items-center gap-1"
-          >
-            Full history
-            <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
-          </Link>
-        </div>
-
-        <div className="space-y-4">
-          {roles.map((role) => (
-            <div
-              key={`${role.title}-${role.startDate}`}
-              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
-            >
-              <div>
-                <p className="font-semibold text-sm text-fg">{role.title}</p>
-                <p className="text-sm text-muted">{role.company}</p>
-              </div>
-              <div className="flex items-center gap-3 mt-2 sm:mt-0">
-                {role.current && (
-                  <span className="inline-flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400">
-                    <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" aria-hidden="true" />
-                    Current
-                  </span>
-                )}
-                <span className="text-xs font-mono text-muted">
-                  {role.startDate} – {role.current ? "Present" : role.endDate}
-                </span>
-              </div>
+      {/* ── At a glance ─────────────────────────────────────── */}
+      <section aria-label="At a glance" className="px-4 sm:px-6 lg:px-8 pb-16 max-w-6xl mx-auto">
+        <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-card border border-gray-200 dark:border-gray-800 bg-gray-200 dark:bg-gray-800">
+          {[
+            { value: "3+ years", label: "Cloud infrastructure & system administration" },
+            { value: "AWS SA Associate", label: `${latestCert.issuer} certification, ${latestCert.year}` },
+            { value: `${projects.length} labs`, label: "Each with code, a runbook and evidence" },
+            { value: currentRole.title, label: currentRole.company, href: "/experience", cta: "Full history" },
+          ].map((stat) => (
+            <div key={stat.value} className="bg-surface p-5">
+              <dt className="sr-only">{stat.label}</dt>
+              <dd>
+                <p className="text-lg font-bold text-fg leading-snug">{stat.value}</p>
+                <p className="mt-1 text-sm text-muted">
+                  {stat.label}
+                  {stat.href && (
+                    <>
+                      {" · "}
+                      <Link href={stat.href} className="text-accent hover:underline">
+                        {stat.cta}
+                      </Link>
+                    </>
+                  )}
+                </p>
+              </dd>
             </div>
           ))}
-        </div>
+        </dl>
       </section>
 
       {/* ── Featured projects ───────────────────────────────── */}
@@ -226,11 +209,6 @@ export default function HomePage() {
             >
               <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-3">
                 {cat.label}
-                {"note" in cat && cat.note ? (
-                  <span className="ml-1.5 font-normal normal-case text-[10px] text-amber-600 dark:text-amber-400">
-                    ({cat.note})
-                  </span>
-                ) : null}
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {cat.skills.map((skill) => (

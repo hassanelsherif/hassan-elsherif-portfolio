@@ -43,16 +43,3 @@ export interface Education {
   startYear: string;
   endYear: string;
 }
-
-export interface ContactFormData {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-  honeypot?: string;
-}
-
-export interface ContactFormState {
-  status: "idle" | "sending" | "success" | "failure";
-  message?: string;
-}

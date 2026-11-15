@@ -4,7 +4,7 @@ test.describe("Smoke tests", () => {
   test("homepage renders key content", async ({ page }) => {
     await page.goto("/");
     await expect(page.getByRole("heading", { name: /Hassan El-Sherif/i })).toBeVisible();
-    await expect(page.getByText(/Cloud \/ DevOps Engineer/i)).toBeVisible();
+    await expect(page.getByText("Cloud / DevOps Engineer", { exact: true })).toBeVisible();
   });
 
   test("navigation links work", async ({ page }) => {
@@ -30,7 +30,8 @@ test.describe("Smoke tests", () => {
   test("404 page renders with navigation links", async ({ page }) => {
     await page.goto("/does-not-exist");
     await expect(page.getByText("404")).toBeVisible();
-    await expect(page.getByRole("link", { name: /Home/i })).toBeVisible();
+    // Scope to the page body: the header and footer also have "Home" links
+    await expect(page.getByRole("main").getByRole("link", { name: /Home/i })).toBeVisible();
   });
 
   test("CV download link exists on homepage", async ({ page }) => {

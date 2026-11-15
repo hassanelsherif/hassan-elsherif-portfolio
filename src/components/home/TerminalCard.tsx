@@ -2,17 +2,18 @@ type Line =
   | { kind: "cmd"; text: string }
   | { kind: "out"; text: string; tone?: "ok" | "dim" | "warn" };
 
-// Output mirrors the real lab projects (P01 Terraform, P03 Kubernetes, P04 alerting)
+// Commands come from the lab runbooks; every output line matches an evidence
+// screenshot (P01 apply + idempotency, P04 alert, P05 restore). Nothing invented.
 const LINES: Line[] = [
-  { kind: "cmd", text: "terraform apply -var-file=environments/local.tfvars" },
-  { kind: "out", text: "aws_vpc.main: Creation complete after 2s", tone: "dim" },
+  { kind: "cmd", text: "terraform apply tfplan" },
   { kind: "out", text: "Apply complete! Resources: 11 added, 0 changed, 0 destroyed.", tone: "ok" },
-  { kind: "cmd", text: "kubectl get pods -l app=p03-app" },
-  { kind: "out", text: "NAME                       READY   STATUS    RESTARTS", tone: "dim" },
-  { kind: "out", text: "p03-app-7d9f8c6b5-k2xmq    1/1     Running   0", tone: "ok" },
-  { kind: "out", text: "p03-app-7d9f8c6b5-r8tlv    1/1     Running   0", tone: "ok" },
-  { kind: "cmd", text: "curl -s :9090/api/v1/alerts | jq '.data.alerts | length'" },
-  { kind: "out", text: "0  # all alerts resolved", tone: "ok" },
+  { kind: "cmd", text: "terraform plan -var-file=environments/local.tfvars" },
+  { kind: "out", text: "No changes. Your infrastructure matches the configuration.", tone: "dim" },
+  { kind: "cmd", text: "bash scripts/simulate-failure.sh" },
+  { kind: "out", text: "AppDown alert: PENDING", tone: "warn" },
+  { kind: "cmd", text: "python3 scripts/restore.py" },
+  { kind: "out", text: "Checksum OK", tone: "dim" },
+  { kind: "out", text: "RTO measured: 0.3 seconds", tone: "ok" },
 ];
 
 const toneClass = {
@@ -26,7 +27,7 @@ export function TerminalCard() {
     <div
       className="relative w-full rounded-xl border border-slate-700/60 bg-[#0A0F1C] shadow-2xl shadow-accent/10 ring-1 ring-white/5 overflow-hidden"
       role="img"
-      aria-label="Terminal showing a successful Terraform apply, healthy Kubernetes pods, and resolved Prometheus alerts"
+      aria-label="Terminal replaying commands from the labs: Terraform apply and an idempotent re-plan, a simulated outage raising the AppDown alert, and a backup restore with a 0.3 second RTO"
     >
       {/* Title bar */}
       <div className="flex items-center gap-2 px-4 py-3 border-b border-slate-700/60 bg-slate-900/60">

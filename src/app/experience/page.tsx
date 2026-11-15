@@ -15,7 +15,7 @@ export default function ExperiencePage() {
       <SectionHeading
         label="Career"
         title="Professional Experience"
-        subtitle="All experience at Shelter Technology. Dates and accomplishments sourced from verified CV."
+        subtitle="Three roles at Shelter Technology, from IT support to managing AWS infrastructure for AI-powered computer vision applications."
       />
 
       {/* Timeline */}
