@@ -20,13 +20,13 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 bg-[#F8FAFC]/90 dark:bg-[#0B1120]/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+    <header className="sticky top-0 z-50 bg-bg/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo / name */}
           <Link
             href="/"
-            className="font-mono text-sm font-semibold text-[#0F172A] dark:text-[#E5E7EB] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors duration-150"
+            className="font-mono text-sm font-semibold text-fg hover:text-accent transition-colors duration-150"
             aria-label="Hassan El-Sherif — home"
           >
             hassan@devops:~$
@@ -41,8 +41,8 @@ export function Header() {
                 className={cn(
                   "px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                   pathname === link.href
-                    ? "text-[#2563EB] dark:text-[#3B82F6] bg-blue-50 dark:bg-blue-950/40"
-                    : "text-[#475569] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#E5E7EB] hover:bg-gray-100 dark:hover:bg-gray-800/60"
+                    ? "text-accent bg-blue-50 dark:bg-blue-950/40"
+                    : "text-muted hover:text-fg hover:bg-gray-100 dark:hover:bg-gray-800/60"
                 )}
                 aria-current={pathname === link.href ? "page" : undefined}
               >
@@ -52,7 +52,7 @@ export function Header() {
             <a
               href="/resume/Hassan-ElSherif-CV.pdf"
               download
-              className="ml-2 flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium bg-[#2563EB] dark:bg-[#3B82F6] text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
+              className="ml-2 flex items-center gap-1.5 px-3 py-2 rounded-md text-sm font-medium bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
               aria-label="Download CV PDF"
             >
               <Download className="w-3.5 h-3.5" aria-hidden="true" />
@@ -69,7 +69,7 @@ export function Header() {
             <button
               type="button"
               onClick={() => setMobileOpen((v) => !v)}
-              className="p-2 rounded-md text-[#475569] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#E5E7EB] hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
+              className="p-2 rounded-md text-muted hover:text-fg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-150"
               aria-expanded={mobileOpen}
               aria-controls="mobile-menu"
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
@@ -89,7 +89,7 @@ export function Header() {
         <nav
           id="mobile-menu"
           aria-label="Mobile navigation"
-          className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-[#F8FAFC] dark:bg-[#0B1120] px-4 pb-4 pt-2 animate-fade-in"
+          className="md:hidden border-t border-gray-200 dark:border-gray-800 bg-bg px-4 pb-4 pt-2 animate-fade-in"
         >
           {navLinks.map((link) => (
             <Link
@@ -99,8 +99,8 @@ export function Header() {
               className={cn(
                 "block px-3 py-2.5 rounded-md text-sm font-medium transition-colors duration-150 mb-1",
                 pathname === link.href
-                  ? "text-[#2563EB] dark:text-[#3B82F6] bg-blue-50 dark:bg-blue-950/40"
-                  : "text-[#475569] dark:text-[#94A3B8] hover:text-[#0F172A] dark:hover:text-[#E5E7EB] hover:bg-gray-100 dark:hover:bg-gray-800/60"
+                  ? "text-accent bg-blue-50 dark:bg-blue-950/40"
+                  : "text-muted hover:text-fg hover:bg-gray-100 dark:hover:bg-gray-800/60"
               )}
               aria-current={pathname === link.href ? "page" : undefined}
             >
@@ -111,7 +111,7 @@ export function Header() {
             href="/resume/Hassan-ElSherif-CV.pdf"
             download
             onClick={() => setMobileOpen(false)}
-            className="mt-2 flex items-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium bg-[#2563EB] dark:bg-[#3B82F6] text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
+            className="mt-2 flex items-center gap-1.5 px-3 py-2.5 rounded-md text-sm font-medium bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
           >
             <Download className="w-3.5 h-3.5" aria-hidden="true" />
             Download CV

@@ -26,12 +26,12 @@ export default function AboutPage() {
           {/* Engineering approach */}
           <section aria-labelledby="approach-heading">
             <div className="flex items-center gap-2 mb-4">
-              <Lightbulb className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-              <h2 id="approach-heading" className="text-lg font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+              <Lightbulb className="w-5 h-5 text-accent" aria-hidden="true" />
+              <h2 id="approach-heading" className="text-lg font-semibold text-fg">
                 Engineering approach
               </h2>
             </div>
-            <p className="text-[#475569] dark:text-[#94A3B8] leading-relaxed">
+            <p className="text-muted leading-relaxed">
               {profile.engineeringApproach}
             </p>
           </section>
@@ -39,8 +39,8 @@ export default function AboutPage() {
           {/* Skills */}
           <section aria-labelledby="skills-heading">
             <div className="flex items-center gap-2 mb-5">
-              <Code2 className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-              <h2 id="skills-heading" className="text-lg font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+              <Code2 className="w-5 h-5 text-accent" aria-hidden="true" />
+              <h2 id="skills-heading" className="text-lg font-semibold text-fg">
                 Skills & technologies
               </h2>
             </div>
@@ -48,7 +48,7 @@ export default function AboutPage() {
               {skillCategories.map((cat) => (
                 <div key={cat.label}>
                   <div className="flex items-center gap-2 mb-2">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-[#475569] dark:text-[#94A3B8]">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted">
                       {cat.label}
                     </p>
                     {"note" in cat && cat.note ? (
@@ -61,7 +61,7 @@ export default function AboutPage() {
                     {cat.skills.map((skill) => (
                       <span
                         key={skill}
-                        className="px-2.5 py-1 rounded-md text-xs font-mono bg-gray-100 dark:bg-gray-800 text-[#475569] dark:text-[#94A3B8] border border-gray-200 dark:border-gray-700"
+                        className="px-2.5 py-1 rounded-md text-xs font-mono bg-gray-100 dark:bg-gray-800 text-muted border border-gray-200 dark:border-gray-700"
                       >
                         {skill}
                       </span>
@@ -78,8 +78,8 @@ export default function AboutPage() {
           {/* Education */}
           <section aria-labelledby="education-heading">
             <div className="flex items-center gap-2 mb-4">
-              <GraduationCap className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-              <h2 id="education-heading" className="text-lg font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+              <GraduationCap className="w-5 h-5 text-accent" aria-hidden="true" />
+              <h2 id="education-heading" className="text-lg font-semibold text-fg">
                 Education
               </h2>
             </div>
@@ -87,11 +87,11 @@ export default function AboutPage() {
               {education.map((edu) => (
                 <div
                   key={edu.degree}
-                  className="p-4 rounded-card bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800"
+                  className="p-4 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
                 >
-                  <p className="text-sm font-semibold text-[#0F172A] dark:text-[#E5E7EB]">{edu.degree}</p>
-                  <p className="text-sm text-[#475569] dark:text-[#94A3B8] mt-0.5">{edu.institution}</p>
-                  <p className="font-mono text-xs text-[#475569] dark:text-[#94A3B8] mt-1">
+                  <p className="text-sm font-semibold text-fg">{edu.degree}</p>
+                  <p className="text-sm text-muted mt-0.5">{edu.institution}</p>
+                  <p className="font-mono text-xs text-muted mt-1">
                     {edu.startYear} – {edu.endYear}
                   </p>
                 </div>
@@ -102,8 +102,8 @@ export default function AboutPage() {
           {/* Certifications */}
           <section aria-labelledby="certs-heading">
             <div className="flex items-center gap-2 mb-4">
-              <Award className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-              <h2 id="certs-heading" className="text-lg font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+              <Award className="w-5 h-5 text-accent" aria-hidden="true" />
+              <h2 id="certs-heading" className="text-lg font-semibold text-fg">
                 Certifications
               </h2>
             </div>
@@ -111,20 +111,20 @@ export default function AboutPage() {
               {certifications.map((cert) => (
                 <div
                   key={cert.name}
-                  className="p-4 rounded-card bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800"
+                  className="p-4 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
                 >
-                  <p className="text-sm font-semibold text-[#0F172A] dark:text-[#E5E7EB]">{cert.name}</p>
+                  <p className="text-sm font-semibold text-fg">{cert.name}</p>
                   {cert.issuer && (
-                    <p className="text-sm text-[#475569] dark:text-[#94A3B8] mt-0.5">{cert.issuer}</p>
+                    <p className="text-sm text-muted mt-0.5">{cert.issuer}</p>
                   )}
                   <div className="flex items-center justify-between mt-1">
-                    <p className="font-mono text-xs text-[#2563EB] dark:text-[#3B82F6]">{cert.year}</p>
+                    <p className="font-mono text-xs text-accent">{cert.year}</p>
                     {cert.verifyUrl && (
                       <a
                         href={cert.verifyUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-xs text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] underline transition-colors"
+                        className="text-xs text-muted hover:text-accent underline transition-colors"
                       >
                         Verify ↗
                       </a>

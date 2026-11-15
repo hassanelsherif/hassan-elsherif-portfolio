@@ -68,7 +68,7 @@ export function ContactForm() {
   }
 
   const inputBase =
-    "w-full px-3 py-2.5 rounded-md bg-gray-50 dark:bg-gray-800/60 border text-sm text-[#0F172A] dark:text-[#E5E7EB] placeholder-gray-400 dark:placeholder-gray-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-[#2563EB] dark:focus:ring-[#3B82F6] focus:border-transparent";
+    "w-full px-3 py-2.5 rounded-md bg-gray-50 dark:bg-gray-800/60 border text-sm text-fg placeholder-gray-400 dark:placeholder-gray-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent";
   const inputNormal = "border-gray-300 dark:border-gray-700";
   const inputError = "border-red-400 dark:border-red-600";
 
@@ -80,14 +80,14 @@ export function ContactForm() {
         aria-live="polite"
       >
         <CheckCircle className="w-10 h-10 text-emerald-500" aria-hidden="true" />
-        <h3 className="text-lg font-semibold text-[#0F172A] dark:text-[#E5E7EB]">Message sent</h3>
-        <p className="text-sm text-[#475569] dark:text-[#94A3B8] max-w-xs">
+        <h3 className="text-lg font-semibold text-fg">Message sent</h3>
+        <p className="text-sm text-muted max-w-xs">
           Thanks for reaching out. I&apos;ll reply to your email as soon as possible.
         </p>
         <button
           type="button"
           onClick={() => setSubmitState("idle")}
-          className="mt-2 text-sm text-[#2563EB] dark:text-[#3B82F6] hover:underline"
+          className="mt-2 text-sm text-accent hover:underline"
         >
           Send another message
         </button>
@@ -110,7 +110,7 @@ export function ContactForm() {
 
       {/* Name */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-[#0F172A] dark:text-[#E5E7EB] mb-1.5">
+        <label htmlFor="name" className="block text-sm font-medium text-fg mb-1.5">
           Name <span aria-hidden="true" className="text-red-500">*</span>
         </label>
         <input
@@ -133,7 +133,7 @@ export function ContactForm() {
 
       {/* Email */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-[#0F172A] dark:text-[#E5E7EB] mb-1.5">
+        <label htmlFor="email" className="block text-sm font-medium text-fg mb-1.5">
           Email <span aria-hidden="true" className="text-red-500">*</span>
         </label>
         <input
@@ -156,7 +156,7 @@ export function ContactForm() {
 
       {/* Subject */}
       <div>
-        <label htmlFor="subject" className="block text-sm font-medium text-[#0F172A] dark:text-[#E5E7EB] mb-1.5">
+        <label htmlFor="subject" className="block text-sm font-medium text-fg mb-1.5">
           Subject <span aria-hidden="true" className="text-red-500">*</span>
         </label>
         <input
@@ -178,7 +178,7 @@ export function ContactForm() {
 
       {/* Message */}
       <div>
-        <label htmlFor="message" className="block text-sm font-medium text-[#0F172A] dark:text-[#E5E7EB] mb-1.5">
+        <label htmlFor="message" className="block text-sm font-medium text-fg mb-1.5">
           Message <span aria-hidden="true" className="text-red-500">*</span>
         </label>
         <textarea
@@ -218,7 +218,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitState === "sending"}
-        className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-[#2563EB] dark:bg-[#3B82F6] text-white hover:bg-blue-700 dark:hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150"
+        className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150"
         aria-busy={submitState === "sending"}
       >
         {submitState === "sending" ? (

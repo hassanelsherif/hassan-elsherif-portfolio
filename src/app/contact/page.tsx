@@ -23,13 +23,13 @@ export default function ContactPage() {
         {/* Info column */}
         <aside className="lg:col-span-2 space-y-6">
           <div>
-            <h2 className="text-sm font-semibold text-[#0F172A] dark:text-[#E5E7EB] mb-4">
+            <h2 className="text-sm font-semibold text-fg mb-4">
               Direct contact
             </h2>
             <div className="space-y-3">
               <a
                 href={`mailto:${profile.email}`}
-                className="flex items-center gap-3 text-sm text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors group"
+                className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
               >
                 <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-950/30 transition-colors">
                   <Mail className="w-4 h-4" aria-hidden="true" />
@@ -40,7 +40,7 @@ export default function ContactPage() {
                 href={profile.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors group"
+                className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
               >
                 <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-950/30 transition-colors">
                   <Linkedin className="w-4 h-4" aria-hidden="true" />
@@ -51,14 +51,14 @@ export default function ContactPage() {
                 href={profile.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-3 text-sm text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors group"
+                className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
               >
                 <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-950/30 transition-colors">
                   <Github className="w-4 h-4" aria-hidden="true" />
                 </div>
                 GitHub
               </a>
-              <div className="flex items-center gap-3 text-sm text-[#475569] dark:text-[#94A3B8]">
+              <div className="flex items-center gap-3 text-sm text-muted">
                 <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
                   <MapPin className="w-4 h-4" aria-hidden="true" />
                 </div>
@@ -69,14 +69,14 @@ export default function ContactPage() {
 
           {/* Privacy notice */}
           <div className="p-4 rounded-card bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700">
-            <p className="text-xs text-[#475569] dark:text-[#94A3B8] leading-relaxed">
-              <strong className="text-[#0F172A] dark:text-[#E5E7EB]">Privacy:</strong> Form messages are
+            <p className="text-xs text-muted leading-relaxed">
+              <strong className="text-fg">Privacy:</strong> Form messages are
               processed via{" "}
               <a
                 href="https://resend.com/privacy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="underline hover:text-[#2563EB] dark:hover:text-[#3B82F6]"
+                className="underline hover:text-accent"
               >
                 Resend
               </a>{" "}
@@ -88,7 +88,7 @@ export default function ContactPage() {
 
         {/* Form column */}
         <div className="lg:col-span-3">
-          <div className="p-6 sm:p-8 rounded-card bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800">
+          <div className="p-6 sm:p-8 rounded-card bg-surface border border-gray-200 dark:border-gray-800">
             <ContactForm />
           </div>
         </div>

@@ -47,7 +47,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
       <div className="mb-8 space-y-4">
         {/* Status filter */}
         <div>
-          <p className="text-xs font-medium text-[#475569] dark:text-[#94A3B8] mb-2 uppercase tracking-wide">
+          <p className="text-xs font-medium text-muted mb-2 uppercase tracking-wide">
             Status
           </p>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by status">
@@ -58,8 +58,8 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
                 onClick={() => setStatusFilter(opt.value)}
                 className={`px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150 ${
                   statusFilter === opt.value
-                    ? "bg-[#2563EB] dark:bg-[#3B82F6] text-white"
-                    : "bg-gray-100 dark:bg-gray-800 text-[#475569] dark:text-[#94A3B8] hover:bg-gray-200 dark:hover:bg-gray-700"
+                    ? "bg-accent text-white"
+                    : "bg-gray-100 dark:bg-gray-800 text-muted hover:bg-gray-200 dark:hover:bg-gray-700"
                 }`}
                 aria-pressed={statusFilter === opt.value}
               >
@@ -71,7 +71,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
 
         {/* Tech filter */}
         <div>
-          <p className="text-xs font-medium text-[#475569] dark:text-[#94A3B8] mb-2 uppercase tracking-wide">
+          <p className="text-xs font-medium text-muted mb-2 uppercase tracking-wide">
             Technology
           </p>
           <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by technology">
@@ -82,8 +82,8 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
                 onClick={() => setTechFilter(tech)}
                 className={`px-3 py-1.5 rounded-md text-xs font-mono font-medium transition-colors duration-150 ${
                   techFilter === tech
-                    ? "bg-[#2563EB] dark:bg-[#3B82F6] text-white"
-                    : "bg-gray-100 dark:bg-gray-800 text-[#475569] dark:text-[#94A3B8] hover:bg-gray-200 dark:hover:bg-gray-700"
+                    ? "bg-accent text-white"
+                    : "bg-gray-100 dark:bg-gray-800 text-muted hover:bg-gray-200 dark:hover:bg-gray-700"
                 }`}
                 aria-pressed={techFilter === tech}
               >
@@ -95,7 +95,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
       </div>
 
       {/* Results count */}
-      <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-6" aria-live="polite">
+      <p className="text-sm text-muted mb-6" aria-live="polite">
         Showing {filtered.length} of {projects.length} projects
       </p>
 
@@ -107,7 +107,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
           ))}
         </div>
       ) : (
-        <div className="text-center py-16 text-[#475569] dark:text-[#94A3B8]">
+        <div className="text-center py-16 text-muted">
           <p className="text-lg font-medium mb-1">No projects match these filters</p>
           <p className="text-sm">Try selecting different status or technology options.</p>
         </div>

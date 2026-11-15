@@ -34,7 +34,7 @@ export default function ProjectDetailPage({ params }: Props) {
       {/* Back */}
       <Link
         href="/projects"
-        className="inline-flex items-center gap-1.5 text-sm text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors mb-8"
+        className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors mb-8"
       >
         <ArrowLeft className="w-4 h-4" aria-hidden="true" />
         All projects
@@ -43,10 +43,10 @@ export default function ProjectDetailPage({ params }: Props) {
       {/* Header */}
       <header className="mb-10">
         <div className="flex items-center gap-3 mb-3">
-          <span className="font-mono text-xs text-[#475569] dark:text-[#94A3B8]">P0{project.order}</span>
+          <span className="font-mono text-xs text-muted">P0{project.order}</span>
           <StatusBadge status={project.status} />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-[#0F172A] dark:text-[#E5E7EB] mb-4">
+        <h1 className="text-3xl sm:text-4xl font-bold text-fg mb-4">
           {project.title}
         </h1>
         <div className="flex flex-wrap gap-1.5 mb-6" aria-label="Technologies">
@@ -58,7 +58,7 @@ export default function ProjectDetailPage({ params }: Props) {
           href={project.repositoryUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-700 text-[#0F172A] dark:text-[#E5E7EB] hover:border-[#2563EB] dark:hover:border-[#3B82F6] transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:border-accent transition-colors"
           aria-label={`View ${project.title} on GitHub`}
         >
           <Github className="w-4 h-4" aria-hidden="true" />
@@ -69,23 +69,23 @@ export default function ProjectDetailPage({ params }: Props) {
 
       {/* Problem */}
       <section aria-labelledby="problem-heading" className="mb-10">
-        <h2 id="problem-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB] mb-3">
+        <h2 id="problem-heading" className="text-xl font-semibold text-fg mb-3">
           Problem
         </h2>
-        <p className="text-[#475569] dark:text-[#94A3B8] leading-relaxed">{project.problem}</p>
+        <p className="text-muted leading-relaxed">{project.problem}</p>
       </section>
 
       {/* Scope & approach */}
       <section aria-labelledby="scope-heading" className="mb-10">
-        <h2 id="scope-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB] mb-3">
+        <h2 id="scope-heading" className="text-xl font-semibold text-fg mb-3">
           Scope & approach
         </h2>
-        <p className="text-[#475569] dark:text-[#94A3B8] leading-relaxed">{project.description}</p>
+        <p className="text-muted leading-relaxed">{project.description}</p>
       </section>
 
       {/* Architecture */}
       <section aria-labelledby="arch-heading" className="mb-10">
-        <h2 id="arch-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB] mb-4">
+        <h2 id="arch-heading" className="text-xl font-semibold text-fg mb-4">
           Architecture
         </h2>
         <pre className="overflow-x-auto rounded-md bg-gray-950 dark:bg-[#0B1120] border border-gray-800 p-5 text-xs font-mono text-green-400 leading-relaxed whitespace-pre">
@@ -96,18 +96,18 @@ export default function ProjectDetailPage({ params }: Props) {
       {/* Implementation */}
       <section aria-labelledby="impl-heading" className="mb-10">
         <div className="flex items-center gap-2 mb-4">
-          <Terminal className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-          <h2 id="impl-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+          <Terminal className="w-5 h-5 text-accent" aria-hidden="true" />
+          <h2 id="impl-heading" className="text-xl font-semibold text-fg">
             Implementation
           </h2>
         </div>
         <div className="space-y-4">
           {details.implementation.map((step, i) => (
-            <div key={i} className="rounded-md bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800 overflow-hidden">
+            <div key={i} className="rounded-md bg-surface border border-gray-200 dark:border-gray-800 overflow-hidden">
               <div className="px-4 py-2 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-700">
-                <p className="text-xs font-semibold text-[#0F172A] dark:text-[#E5E7EB]">{step.title}</p>
+                <p className="text-xs font-semibold text-fg">{step.title}</p>
               </div>
-              <pre className="overflow-x-auto p-4 text-xs font-mono text-[#475569] dark:text-[#94A3B8] whitespace-pre">{step.code}</pre>
+              <pre className="overflow-x-auto p-4 text-xs font-mono text-muted whitespace-pre">{step.code}</pre>
             </div>
           ))}
         </div>
@@ -116,8 +116,8 @@ export default function ProjectDetailPage({ params }: Props) {
       {/* Security & trade-offs */}
       <section aria-labelledby="security-heading" className="mb-10">
         <div className="flex items-center gap-2 mb-4">
-          <ShieldCheck className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-          <h2 id="security-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+          <ShieldCheck className="w-5 h-5 text-accent" aria-hidden="true" />
+          <h2 id="security-heading" className="text-xl font-semibold text-fg">
             Security & trade-offs
           </h2>
         </div>
@@ -125,7 +125,7 @@ export default function ProjectDetailPage({ params }: Props) {
           {details.securityNotes.map((note, i) => (
             <li key={i} className="flex items-start gap-2.5">
               <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" aria-hidden="true" />
-              <span className="text-sm text-[#475569] dark:text-[#94A3B8]">{note}</span>
+              <span className="text-sm text-muted">{note}</span>
             </li>
           ))}
         </ul>
@@ -134,16 +134,16 @@ export default function ProjectDetailPage({ params }: Props) {
       {/* Lessons learned */}
       <section aria-labelledby="lessons-heading" className="mb-10">
         <div className="flex items-center gap-2 mb-4">
-          <BookOpen className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-          <h2 id="lessons-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+          <BookOpen className="w-5 h-5 text-accent" aria-hidden="true" />
+          <h2 id="lessons-heading" className="text-xl font-semibold text-fg">
             Lessons learned
           </h2>
         </div>
         <ul className="space-y-2">
           {details.lessons.map((lesson, i) => (
             <li key={i} className="flex items-start gap-2.5">
-              <span className="font-mono text-xs text-[#2563EB] dark:text-[#3B82F6] mt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-sm text-[#475569] dark:text-[#94A3B8]">{lesson}</span>
+              <span className="font-mono text-xs text-accent mt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+              <span className="text-sm text-muted">{lesson}</span>
             </li>
           ))}
         </ul>
@@ -153,15 +153,15 @@ export default function ProjectDetailPage({ params }: Props) {
       {(project.slug === "observability-and-incident-response" || project.slug === "aws-infrastructure-as-code" || project.slug === "aws-backup-and-disaster-recovery" || project.slug === "secure-cicd-pipeline") && (
         <section aria-labelledby="evidence-heading" className="mb-10">
           <div className="flex items-center gap-2 mb-4">
-            <Camera className="w-5 h-5 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-            <h2 id="evidence-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB]">
+            <Camera className="w-5 h-5 text-accent" aria-hidden="true" />
+            <h2 id="evidence-heading" className="text-xl font-semibold text-fg">
               Evidence gallery
             </h2>
           </div>
 
           {project.slug === "aws-infrastructure-as-code" && (
             <>
-              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+              <p className="text-sm text-muted mb-5">
                 Real Terraform execution against LocalStack. All 11 resources provisioned, idempotency verified, clean destroy confirmed.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -172,7 +172,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 ].map((img) => (
                   <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
                     <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
                       {img.caption}
                     </figcaption>
                   </figure>
@@ -183,7 +183,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
           {project.slug === "secure-cicd-pipeline" && (
             <>
-              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+              <p className="text-sm text-muted mb-5">
                 Real GitHub Actions pipeline run — all 4 gates passed. Image pushed to GHCR with commit SHA tag. Trivy detected and blocked a real CRITICAL CVE in the base image npm internals, proving the scanner works.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -193,7 +193,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 ].map((img) => (
                   <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
                     <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
                       {img.caption}
                     </figcaption>
                   </figure>
@@ -204,7 +204,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
           {project.slug === "aws-backup-and-disaster-recovery" && (
             <>
-              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+              <p className="text-sm text-muted mb-5">
                 Real backup and restore exercise against LocalStack S3. RTO measured at 0.3 seconds — well within the 15-minute target. Timestamps visible — 2026-11-02.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -216,7 +216,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 ].map((img) => (
                   <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
                     <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
                       {img.caption}
                     </figcaption>
                   </figure>
@@ -227,7 +227,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
           {project.slug === "observability-and-incident-response" && (
             <>
-              <p className="text-sm text-[#475569] dark:text-[#94A3B8] mb-5">
+              <p className="text-sm text-muted mb-5">
                 Real screenshots from a live failure simulation. Timestamps visible in Prometheus — 2026-11-02.
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -239,7 +239,7 @@ export default function ProjectDetailPage({ params }: Props) {
                 ].map((img) => (
                   <figure key={img.src} className="rounded-md overflow-hidden border border-gray-200 dark:border-gray-800">
                     <Image src={img.src} alt={img.alt} width={800} height={450} className="w-full object-cover" />
-                    <figcaption className="px-3 py-2 text-xs text-[#475569] dark:text-[#94A3B8] bg-gray-50 dark:bg-gray-800/60">
+                    <figcaption className="px-3 py-2 text-xs text-muted bg-gray-50 dark:bg-gray-800/60">
                       {img.caption}
                     </figcaption>
                   </figure>
@@ -252,14 +252,14 @@ export default function ProjectDetailPage({ params }: Props) {
 
       {/* Stack */}
       <section aria-labelledby="stack-heading" className="mb-10">
-        <h2 id="stack-heading" className="text-xl font-semibold text-[#0F172A] dark:text-[#E5E7EB] mb-4">
+        <h2 id="stack-heading" className="text-xl font-semibold text-fg mb-4">
           Full stack
         </h2>
         <div className="flex flex-wrap gap-2">
           {project.technologies.map((t) => (
             <span
               key={t}
-              className="px-2.5 py-1 rounded-md text-xs font-mono bg-gray-100 dark:bg-gray-800 text-[#475569] dark:text-[#94A3B8] border border-gray-200 dark:border-gray-700"
+              className="px-2.5 py-1 rounded-md text-xs font-mono bg-gray-100 dark:bg-gray-800 text-muted border border-gray-200 dark:border-gray-700"
             >
               {t}
             </span>

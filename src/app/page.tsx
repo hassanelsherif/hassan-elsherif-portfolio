@@ -4,6 +4,7 @@ import { ArrowRight, Download, Github, Linkedin, Mail, Terminal } from "lucide-r
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { TerminalCard } from "@/components/home/TerminalCard";
 import { profile, skillCategories } from "@/content/profile";
 import { projects } from "@/content/projects";
 import { roles } from "@/content/experience";
@@ -33,37 +34,36 @@ export default function HomePage() {
   return (
     <>
       {/* ── Hero ────────────────────────────────────────────── */}
-      <section
-        aria-labelledby="hero-heading"
-        className="relative overflow-hidden px-4 sm:px-6 lg:px-8 pt-20 pb-24 max-w-6xl mx-auto"
-      >
+      <section aria-labelledby="hero-heading" className="relative overflow-hidden">
         {/* Background glow */}
         <div
           className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
           aria-hidden="true"
         >
-          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#2563EB]/5 dark:bg-[#3B82F6]/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+          <div className="absolute top-0 right-0 w-[640px] h-[640px] bg-accent/15 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
+          <div className="absolute top-1/4 left-0 w-[420px] h-[420px] bg-violet-500/10 rounded-full blur-3xl -translate-x-1/2" />
         </div>
 
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-24 grid gap-12 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
         <div className="max-w-3xl">
           {/* Eyebrow */}
           <div className="flex items-center gap-2 mb-6">
-            <Terminal className="w-4 h-4 text-[#2563EB] dark:text-[#3B82F6]" aria-hidden="true" />
-            <span className="font-mono text-xs text-[#2563EB] dark:text-[#3B82F6] uppercase tracking-widest">
+            <Terminal className="w-4 h-4 text-accent" aria-hidden="true" />
+            <span className="font-mono text-xs text-accent uppercase tracking-widest">
               {currentRole.title} · {currentRole.company}
             </span>
           </div>
 
           <h1
             id="hero-heading"
-            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-[#0F172A] dark:text-[#E5E7EB] leading-tight"
+            className="text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight text-fg leading-tight"
           >
             {profile.name}
           </h1>
-          <p className="mt-3 text-xl sm:text-2xl font-medium text-[#2563EB] dark:text-[#3B82F6]">
+          <p className="mt-3 text-xl sm:text-2xl font-medium text-accent">
             {profile.targetRole}
           </p>
-          <p className="mt-5 text-base sm:text-lg text-[#475569] dark:text-[#94A3B8] leading-relaxed max-w-2xl">
+          <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
             {profile.experienceSummary}
           </p>
 
@@ -78,7 +78,7 @@ export default function HomePage() {
           <div className="mt-8 flex flex-wrap gap-3">
             <Link
               href="/projects"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-[#2563EB] dark:bg-[#3B82F6] text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
             >
               View projects
               <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -86,7 +86,7 @@ export default function HomePage() {
             <a
               href="/resume/Hassan-ElSherif-CV.pdf"
               download
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-700 text-[#0F172A] dark:text-[#E5E7EB] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
               aria-label="Download CV PDF"
             >
               <Download className="w-4 h-4" aria-hidden="true" />
@@ -94,7 +94,7 @@ export default function HomePage() {
             </a>
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-700 text-[#0F172A] dark:text-[#E5E7EB] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
             >
               <Mail className="w-4 h-4" aria-hidden="true" />
               Contact
@@ -108,7 +108,7 @@ export default function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub profile"
-              className="flex items-center gap-1.5 text-sm text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors duration-150"
+              className="flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors duration-150"
             >
               <Github className="w-4 h-4" aria-hidden="true" />
               GitHub
@@ -118,12 +118,17 @@ export default function HomePage() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="LinkedIn profile"
-              className="flex items-center gap-1.5 text-sm text-[#475569] dark:text-[#94A3B8] hover:text-[#2563EB] dark:hover:text-[#3B82F6] transition-colors duration-150"
+              className="flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors duration-150"
             >
               <Linkedin className="w-4 h-4" aria-hidden="true" />
               LinkedIn
             </a>
           </div>
+        </div>
+
+        <div className="animate-slide-up lg:pl-4">
+          <TerminalCard />
+        </div>
         </div>
       </section>
 
@@ -134,16 +139,16 @@ export default function HomePage() {
       >
         <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-[#2563EB] dark:text-[#3B82F6] mb-1">
+            <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">
               Career
             </p>
-            <h2 id="experience-heading" className="text-2xl font-bold text-[#0F172A] dark:text-[#E5E7EB]">
+            <h2 id="experience-heading" className="text-2xl font-bold text-fg">
               Experience
             </h2>
           </div>
           <Link
             href="/experience"
-            className="text-sm text-[#2563EB] dark:text-[#3B82F6] hover:underline flex items-center gap-1"
+            className="text-sm text-accent hover:underline flex items-center gap-1"
           >
             Full history
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -154,11 +159,11 @@ export default function HomePage() {
           {roles.map((role) => (
             <div
               key={`${role.title}-${role.startDate}`}
-              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-card bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800"
+              className="flex flex-col sm:flex-row sm:items-center justify-between p-4 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
             >
               <div>
-                <p className="font-semibold text-sm text-[#0F172A] dark:text-[#E5E7EB]">{role.title}</p>
-                <p className="text-sm text-[#475569] dark:text-[#94A3B8]">{role.company}</p>
+                <p className="font-semibold text-sm text-fg">{role.title}</p>
+                <p className="text-sm text-muted">{role.company}</p>
               </div>
               <div className="flex items-center gap-3 mt-2 sm:mt-0">
                 {role.current && (
@@ -167,7 +172,7 @@ export default function HomePage() {
                     Current
                   </span>
                 )}
-                <span className="text-xs font-mono text-[#475569] dark:text-[#94A3B8]">
+                <span className="text-xs font-mono text-muted">
                   {role.startDate} – {role.current ? "Present" : role.endDate}
                 </span>
               </div>
@@ -183,16 +188,16 @@ export default function HomePage() {
       >
         <div className="flex items-center justify-between mb-8">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-[#2563EB] dark:text-[#3B82F6] mb-1">
+            <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">
               Lab projects
             </p>
-            <h2 id="projects-heading" className="text-2xl font-bold text-[#0F172A] dark:text-[#E5E7EB]">
+            <h2 id="projects-heading" className="text-2xl font-bold text-fg">
               DevOps Portfolio
             </h2>
           </div>
           <Link
             href="/projects"
-            className="text-sm text-[#2563EB] dark:text-[#3B82F6] hover:underline flex items-center gap-1"
+            className="text-sm text-accent hover:underline flex items-center gap-1"
           >
             All 5 projects
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
@@ -208,7 +213,7 @@ export default function HomePage() {
         <div className="mt-8 text-center">
           <Link
             href="/projects"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold border border-gray-200 dark:border-gray-700 text-[#0F172A] dark:text-[#E5E7EB] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
+            className="inline-flex items-center gap-2 px-5 py-3 rounded-md text-sm font-semibold border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
           >
             View all 5 projects
             <ArrowRight className="w-4 h-4" aria-hidden="true" />
@@ -222,10 +227,10 @@ export default function HomePage() {
         className="px-4 sm:px-6 lg:px-8 py-16 max-w-6xl mx-auto border-t border-gray-200 dark:border-gray-800"
       >
         <div className="mb-8">
-          <p className="font-mono text-xs uppercase tracking-widest text-[#2563EB] dark:text-[#3B82F6] mb-1">
+          <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">
             Technologies
           </p>
-          <h2 id="skills-heading" className="text-2xl font-bold text-[#0F172A] dark:text-[#E5E7EB]">
+          <h2 id="skills-heading" className="text-2xl font-bold text-fg">
             Skills
           </h2>
         </div>
@@ -233,9 +238,9 @@ export default function HomePage() {
           {skillCategories.map((cat) => (
             <div
               key={cat.label}
-              className="p-4 rounded-card bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-800"
+              className="p-4 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
             >
-              <p className="text-xs font-semibold uppercase tracking-wide text-[#475569] dark:text-[#94A3B8] mb-3">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-3">
                 {cat.label}
                 {"note" in cat && cat.note ? (
                   <span className="ml-1.5 font-normal normal-case text-[10px] text-amber-600 dark:text-amber-400">
@@ -247,7 +252,7 @@ export default function HomePage() {
                 {cat.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="px-2 py-0.5 rounded text-xs font-mono bg-gray-100 dark:bg-gray-800 text-[#475569] dark:text-[#94A3B8] border border-gray-200 dark:border-gray-700"
+                    className="px-2 py-0.5 rounded text-xs font-mono bg-gray-100 dark:bg-gray-800 text-muted border border-gray-200 dark:border-gray-700"
                   >
                     {skill}
                   </span>
@@ -263,21 +268,21 @@ export default function HomePage() {
         aria-labelledby="cta-heading"
         className="px-4 sm:px-6 lg:px-8 py-16 max-w-6xl mx-auto border-t border-gray-200 dark:border-gray-800"
       >
-        <div className="rounded-card bg-gradient-to-br from-[#1D4ED8]/10 to-[#3B82F6]/5 dark:from-[#1D4ED8]/20 dark:to-[#3B82F6]/10 border border-[#2563EB]/20 dark:border-[#3B82F6]/20 p-8 sm:p-12 text-center">
+        <div className="rounded-card bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/20 dark:to-accent/10 border border-accent/20 p-8 sm:p-12 text-center">
           <h2
             id="cta-heading"
-            className="text-2xl sm:text-3xl font-bold text-[#0F172A] dark:text-[#E5E7EB] mb-3"
+            className="text-2xl sm:text-3xl font-bold text-fg mb-3"
           >
             Available for new opportunities
           </h2>
-          <p className="text-[#475569] dark:text-[#94A3B8] mb-8 max-w-xl mx-auto">
+          <p className="text-muted mb-8 max-w-xl mx-auto">
             Looking for mid-level Cloud / DevOps Engineer roles. Happy to discuss infrastructure,
             architecture, or operational challenges.
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold bg-[#2563EB] dark:bg-[#3B82F6] text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors duration-150"
             >
               <Mail className="w-4 h-4" aria-hidden="true" />
               Get in touch
@@ -285,7 +290,7 @@ export default function HomePage() {
             <a
               href="/resume/Hassan-ElSherif-CV.pdf"
               download
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold bg-white dark:bg-[#111827] border border-gray-200 dark:border-gray-700 text-[#0F172A] dark:text-[#E5E7EB] hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-md text-sm font-semibold bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors duration-150"
             >
               <Download className="w-4 h-4" aria-hidden="true" />
               Download CV

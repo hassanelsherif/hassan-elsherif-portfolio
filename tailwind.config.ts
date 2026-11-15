@@ -10,22 +10,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Dark theme tokens
-        dark: {
-          bg: "#0B1120",
-          surface: "#111827",
-          accent: "#3B82F6",
-          "text-primary": "#E5E7EB",
-          "text-secondary": "#94A3B8",
-        },
-        // Light theme tokens
-        light: {
-          bg: "#F8FAFC",
-          surface: "#FFFFFF",
-          accent: "#2563EB",
-          "text-primary": "#0F172A",
-          "text-secondary": "#475569",
-        },
+        // Theme tokens — values live in globals.css (:root / .dark)
+        bg: "rgb(var(--bg) / <alpha-value>)",
+        surface: "rgb(var(--surface) / <alpha-value>)",
+        accent: "rgb(var(--accent) / <alpha-value>)",
+        fg: "rgb(var(--fg) / <alpha-value>)",
+        muted: "rgb(var(--muted) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
@@ -43,11 +33,20 @@ const config: Config = {
       animation: {
         "fade-in": "fadeIn 200ms ease-in-out",
         "slide-up": "slideUp 250ms ease-out",
+        "line-in": "lineIn 300ms ease-out forwards",
+        blink: "blink 1s steps(2, start) infinite",
       },
       keyframes: {
         fadeIn: {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
+        },
+        lineIn: {
+          "0%": { opacity: "0", transform: "translateY(4px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        blink: {
+          to: { visibility: "hidden" },
         },
         slideUp: {
           "0%": { opacity: "0", transform: "translateY(12px)" },

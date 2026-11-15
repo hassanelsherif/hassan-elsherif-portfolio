@@ -28,6 +28,7 @@ export const projects: Project[] = [
     repositoryUrl: "https://github.com/hassanelsherif/hassan-elsherif-portfolio/tree/main/projects/p01-aws-iac",
     featured: true,
     order: 1,
+    coverImage: "/images/p01/01-terraform-apply.png",
   },
   {
     slug: "secure-cicd-pipeline",
@@ -47,6 +48,7 @@ export const projects: Project[] = [
     repositoryUrl: "https://github.com/hassanelsherif/hassan-elsherif-portfolio/tree/main/projects/p02-cicd-pipeline",
     featured: true,
     order: 2,
+    coverImage: "/images/p02/02-ghcr-image.png",
   },
   {
     slug: "kubernetes-application-platform",
@@ -85,6 +87,7 @@ export const projects: Project[] = [
     repositoryUrl: "https://github.com/hassanelsherif/hassan-elsherif-portfolio/tree/main/projects/p04-observability",
     featured: true,
     order: 4,
+    coverImage: "/images/p04/01-grafana-app-up.png",
   },
   {
     slug: "aws-backup-and-disaster-recovery",
@@ -105,6 +108,7 @@ export const projects: Project[] = [
     repositoryUrl: "https://github.com/hassanelsherif/hassan-elsherif-portfolio/tree/main/projects/p05-backup-dr",
     featured: true,
     order: 5,
+    coverImage: "/images/p05/03-restore-complete.png",
   },
 ];
 

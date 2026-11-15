@@ -18,6 +18,7 @@ export interface Project {
   order: number;
   architectureDiagram?: string; // path to diagram file
   screenshotAlt?: string;
+  coverImage?: string; // path under /public, shown on the project card
 }
 
 export interface ExperienceRole {
