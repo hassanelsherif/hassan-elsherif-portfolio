@@ -564,3 +564,55 @@ export function getProjectDetails(slug: string): ProjectDetail {
   }
   return detail;
 }
+
+export interface ProjectResult {
+  value: string;
+  label: string;
+}
+
+/**
+ * Headline outcomes for each case study. Every value is backed by an evidence
+ * screenshot or by the lab's own config files — nothing estimated.
+ */
+export const projectResults: Record<string, { items: ProjectResult[]; source: string }> = {
+  "aws-infrastructure-as-code": {
+    source: "From the Terraform apply / plan / destroy output in the evidence gallery.",
+    items: [
+      { value: "11", label: "resources applied with real IDs" },
+      { value: "0", label: "changes on the second plan (idempotent)" },
+      { value: "11 → 0", label: "clean destroy, nothing left behind" },
+    ],
+  },
+  "secure-cicd-pipeline": {
+    source: "From the GitHub Actions run and GHCR package in the evidence gallery.",
+    items: [
+      { value: "4", label: "gated stages: test → scan → push → deploy" },
+      { value: "CRITICAL", label: "CVE caught and blocked by Trivy" },
+      { value: "sha-fcf3bc1", label: "immutable, commit-tagged image" },
+    ],
+  },
+  "kubernetes-application-platform": {
+    source: "From the Helm chart values (helm/p03-app/values.yaml).",
+    items: [
+      { value: "2", label: "replicas behind a Service + Ingress" },
+      { value: "Non-root", label: "read-only root filesystem" },
+      { value: "2 probes", label: "liveness + readiness gate traffic" },
+    ],
+  },
+  "observability-and-incident-response": {
+    source: "From the Prometheus rules and the failure-simulation screenshots.",
+    items: [
+      { value: "3", label: "alert rules: AppDown, error rate, latency" },
+      { value: "1 min", label: "AppDown pending window before firing" },
+      { value: "UP → DOWN → OK", label: "full incident cycle captured" },
+    ],
+  },
+  "aws-backup-and-disaster-recovery": {
+    source: "From the restore script output in the evidence gallery.",
+    items: [
+      { value: "0.3 s", label: "measured RTO for the restore" },
+      { value: "15 min", label: "RTO target, defined before the test" },
+      { value: "SHA-256", label: "checksums verified on restore" },
+    ],
+  },
+};

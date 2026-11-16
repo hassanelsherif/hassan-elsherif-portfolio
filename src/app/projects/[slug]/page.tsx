@@ -1,11 +1,32 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowLeft, ExternalLink, Github, CheckCircle, Terminal, ShieldCheck, BookOpen, Camera } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  BookOpen,
+  Camera,
+  CheckCircle,
+  ExternalLink,
+  Github,
+  Layers,
+  ShieldCheck,
+  Terminal,
+} from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { Chip } from "@/components/ui/Chip";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { getProjectBySlug, getAllProjectSlugs, getProjectDetails } from "@/content/projects";
+import { buttonVariants } from "@/components/ui/Button";
+import { CodeBlock } from "@/components/case-study/CodeBlock";
+import { EvidenceGallery } from "@/components/case-study/EvidenceGallery";
+import { TableOfContents, type TocItem } from "@/components/case-study/TableOfContents";
+import {
+  getAllProjectSlugs,
+  getProjectBySlug,
+  getProjectDetails,
+  projectResults,
+  projects,
+} from "@/content/projects";
 import { evidence } from "@/content/evidence";
 import { projectCode } from "@/lib/utils";
 
@@ -26,15 +47,47 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+function SectionTitle({
+  id,
+  icon: Icon,
+  children,
+}: {
+  id: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  children: React.ReactNode;
+}) {
+  return (
+    <h2 id={id} className="flex items-center gap-2 text-xl font-semibold text-fg mb-4">
+      {Icon && <Icon className="w-5 h-5 text-accent" aria-hidden="true" />}
+      {children}
+    </h2>
+  );
+}
+
 export default function ProjectDetailPage({ params }: Props) {
   const project = getProjectBySlug(params.slug);
   if (!project) notFound();
   const details = getProjectDetails(params.slug);
   const gallery = evidence[project.slug];
+  const results = projectResults[project.slug];
+
+  const ordered = [...projects].sort((a, b) => a.order - b.order);
+  const pos = ordered.findIndex((p) => p.slug === project.slug);
+  const prev = pos > 0 ? ordered[pos - 1] : undefined;
+  const next = pos < ordered.length - 1 ? ordered[pos + 1] : undefined;
+
+  const toc: TocItem[] = [
+    { id: "problem", label: "Problem" },
+    { id: "architecture", label: "Architecture" },
+    { id: "implementation", label: "Implementation" },
+    { id: "security", label: "Security & trade-offs" },
+    { id: "lessons", label: "Lessons learned" },
+    ...(gallery ? [{ id: "evidence", label: "Evidence" }] : []),
+    { id: "stack", label: "Full stack" },
+  ];
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-      {/* Back */}
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <Link
         href="/projects"
         className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors mb-8"
@@ -44,14 +97,13 @@ export default function ProjectDetailPage({ params }: Props) {
       </Link>
 
       {/* Header */}
-      <header className="mb-10">
+      <header className="mb-10 max-w-3xl">
         <div className="flex items-center gap-3 mb-3">
           <span className="font-mono text-xs text-muted">{projectCode(project.order)}</span>
           <StatusBadge status={project.status} />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold text-fg mb-4">
-          {project.title}
-        </h1>
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-4">{project.title}</h1>
+        <p className="text-lg text-muted leading-relaxed mb-6">{project.problem}</p>
         <div className="flex flex-wrap gap-1.5 mb-6" aria-label="Technologies">
           {project.techCategories.map((t) => (
             <Badge key={t.label} label={t.label} variant={t.category} />
@@ -61,7 +113,7 @@ export default function ProjectDetailPage({ params }: Props) {
           href={project.repositoryUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium bg-surface border border-gray-200 dark:border-gray-700 text-fg hover:border-accent transition-colors"
+          className={buttonVariants({ variant: "secondary" })}
           aria-label={`View ${project.title} on GitHub`}
         >
           <Github className="w-4 h-4" aria-hidden="true" />
@@ -70,145 +122,146 @@ export default function ProjectDetailPage({ params }: Props) {
         </a>
       </header>
 
-      {/* Problem */}
-      <section aria-labelledby="problem-heading" className="mb-10">
-        <h2 id="problem-heading" className="text-xl font-semibold text-fg mb-3">
-          Problem
-        </h2>
-        <p className="text-muted leading-relaxed">{project.problem}</p>
-      </section>
-
-      {/* Scope & approach */}
-      <section aria-labelledby="scope-heading" className="mb-10">
-        <h2 id="scope-heading" className="text-xl font-semibold text-fg mb-3">
-          Scope & approach
-        </h2>
-        <p className="text-muted leading-relaxed">{project.description}</p>
-      </section>
-
-      {/* Architecture */}
-      <section aria-labelledby="arch-heading" className="mb-10">
-        <h2 id="arch-heading" className="text-xl font-semibold text-fg mb-4">
-          Architecture
-        </h2>
-        <pre className="overflow-x-auto rounded-md bg-gray-950 dark:bg-[#0B1120] border border-gray-800 p-5 text-xs font-mono text-green-400 leading-relaxed whitespace-pre">
-          {details.architecture}
-        </pre>
-      </section>
-
-      {/* Implementation */}
-      <section aria-labelledby="impl-heading" className="mb-10">
-        <div className="flex items-center gap-2 mb-4">
-          <Terminal className="w-5 h-5 text-accent" aria-hidden="true" />
-          <h2 id="impl-heading" className="text-xl font-semibold text-fg">
-            Implementation
-          </h2>
-        </div>
-        <div className="space-y-4">
-          {details.implementation.map((step, i) => (
-            <div key={i} className="rounded-md bg-surface border border-gray-200 dark:border-gray-800 overflow-hidden">
-              <div className="px-4 py-2 bg-gray-50 dark:bg-gray-800/60 border-b border-gray-200 dark:border-gray-700">
-                <p className="text-xs font-semibold text-fg">{step.title}</p>
+      {/* Results strip */}
+      {results && (
+        <section aria-label="Results" className="mb-12">
+          <dl className="grid grid-cols-1 sm:grid-cols-3 gap-px overflow-hidden rounded-card border border-border bg-border">
+            {results.items.map((r) => (
+              <div key={r.label} className="bg-surface p-5">
+                <dt className="sr-only">{r.label}</dt>
+                <dd>
+                  <p className="font-mono text-2xl font-bold text-accent break-words">{r.value}</p>
+                  <p className="mt-1 text-sm text-muted">{r.label}</p>
+                </dd>
               </div>
-              <pre className="overflow-x-auto p-4 text-xs font-mono text-muted whitespace-pre">{step.code}</pre>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Security & trade-offs */}
-      <section aria-labelledby="security-heading" className="mb-10">
-        <div className="flex items-center gap-2 mb-4">
-          <ShieldCheck className="w-5 h-5 text-accent" aria-hidden="true" />
-          <h2 id="security-heading" className="text-xl font-semibold text-fg">
-            Security & trade-offs
-          </h2>
-        </div>
-        <ul className="space-y-2">
-          {details.securityNotes.map((note, i) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" aria-hidden="true" />
-              <span className="text-sm text-muted">{note}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Lessons learned */}
-      <section aria-labelledby="lessons-heading" className="mb-10">
-        <div className="flex items-center gap-2 mb-4">
-          <BookOpen className="w-5 h-5 text-accent" aria-hidden="true" />
-          <h2 id="lessons-heading" className="text-xl font-semibold text-fg">
-            Lessons learned
-          </h2>
-        </div>
-        <ul className="space-y-2">
-          {details.lessons.map((lesson, i) => (
-            <li key={i} className="flex items-start gap-2.5">
-              <span className="font-mono text-xs text-accent mt-0.5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
-              <span className="text-sm text-muted">{lesson}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Evidence gallery: screenshots at their real aspect ratio; click to open full size */}
-      {gallery && (
-        <section aria-labelledby="evidence-heading" className="mb-10">
-          <div className="flex items-center gap-2 mb-4">
-            <Camera className="w-5 h-5 text-accent" aria-hidden="true" />
-            <h2 id="evidence-heading" className="text-xl font-semibold text-fg">
-              Evidence gallery
-            </h2>
-          </div>
-          <p className="text-sm text-muted mb-6">{gallery.intro}</p>
-          <div className="space-y-8">
-            {gallery.images.map((img, i) => (
-              <figure key={img.src}>
-                <a
-                  href={img.src}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={`Open full-size screenshot: ${img.caption}`}
-                  className="group inline-block max-w-full align-top rounded-md overflow-hidden border border-gray-200 dark:border-gray-800 bg-[#0A0F1C] hover:border-accent/60 transition-colors"
-                >
-                  {/* Never upscale: small terminal captures stay at their natural size */}
-                  <Image
-                    src={img.src}
-                    alt={img.alt}
-                    width={img.width}
-                    height={img.height}
-                    sizes={`(min-width: 896px) ${Math.min(img.width, 832)}px, 100vw`}
-                    style={{ width: img.width, maxWidth: "100%", height: "auto" }}
-                  />
-                </a>
-                <figcaption className="mt-2 text-xs text-muted">
-                  <span className="font-mono text-accent mr-2">Fig. {i + 1}</span>
-                  {img.caption}
-                  <span className="ml-2 opacity-70">· click to enlarge</span>
-                </figcaption>
-              </figure>
             ))}
-          </div>
+          </dl>
+          <p className="mt-2 text-xs text-muted">{results.source}</p>
         </section>
       )}
 
-      {/* Stack */}
-      <section aria-labelledby="stack-heading" className="mb-10">
-        <h2 id="stack-heading" className="text-xl font-semibold text-fg mb-4">
-          Full stack
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {project.technologies.map((t) => (
-            <span
-              key={t}
-              className="px-2.5 py-1 rounded-md text-xs font-mono bg-gray-100 dark:bg-gray-800 text-muted border border-gray-200 dark:border-gray-700"
-            >
-              {t}
-            </span>
-          ))}
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_200px]">
+        <div className="min-w-0 space-y-12">
+          <section aria-labelledby="problem">
+            <SectionTitle id="problem">Problem & approach</SectionTitle>
+            <p className="text-muted leading-relaxed">{project.description}</p>
+          </section>
+
+          <section aria-labelledby="architecture">
+            <SectionTitle id="architecture" icon={Layers}>
+              Architecture
+            </SectionTitle>
+            <div className="rounded-card overflow-hidden border border-slate-700/60 bg-[#0A0F1C] ring-1 ring-white/5">
+              <div className="px-4 py-2 border-b border-slate-700/60 bg-slate-900/60 font-mono text-xs text-slate-400">
+                architecture.txt
+              </div>
+              <pre className="overflow-x-auto p-5 text-xs font-mono text-sky-200 leading-relaxed whitespace-pre">
+                {details.architecture}
+              </pre>
+            </div>
+          </section>
+
+          <section aria-labelledby="implementation">
+            <SectionTitle id="implementation" icon={Terminal}>
+              Implementation
+            </SectionTitle>
+            <div className="space-y-4">
+              {details.implementation.map((step) => (
+                <CodeBlock key={step.title} title={step.title} code={step.code} />
+              ))}
+            </div>
+          </section>
+
+          <section aria-labelledby="security">
+            <SectionTitle id="security" icon={ShieldCheck}>
+              Security & trade-offs
+            </SectionTitle>
+            <ul className="space-y-3">
+              {details.securityNotes.map((note) => (
+                <li key={note} className="flex items-start gap-2.5">
+                  <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" aria-hidden="true" />
+                  <span className="text-sm text-muted leading-relaxed">{note}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section aria-labelledby="lessons">
+            <SectionTitle id="lessons" icon={BookOpen}>
+              Lessons learned
+            </SectionTitle>
+            <ol className="space-y-3">
+              {details.lessons.map((lesson, i) => (
+                <li key={lesson} className="flex items-start gap-3">
+                  <span className="font-mono text-xs text-accent mt-0.5 shrink-0">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <span className="text-sm text-muted leading-relaxed">{lesson}</span>
+                </li>
+              ))}
+            </ol>
+          </section>
+
+          {gallery && (
+            <section aria-labelledby="evidence">
+              <SectionTitle id="evidence" icon={Camera}>
+                Evidence gallery
+              </SectionTitle>
+              <p className="text-sm text-muted mb-6">{gallery.intro}</p>
+              <EvidenceGallery images={gallery.images} />
+            </section>
+          )}
+
+          <section aria-labelledby="stack">
+            <SectionTitle id="stack">Full stack</SectionTitle>
+            <div className="flex flex-wrap gap-2">
+              {project.technologies.map((t) => (
+                <Chip key={t}>{t}</Chip>
+              ))}
+            </div>
+          </section>
         </div>
-      </section>
+
+        <aside className="hidden lg:block">
+          <div className="sticky top-24">
+            <TableOfContents items={toc} />
+          </div>
+        </aside>
+      </div>
+
+      {/* Prev / next */}
+      <nav aria-label="More projects" className="mt-16 pt-8 border-t border-border grid gap-4 sm:grid-cols-2">
+        {prev ? (
+          <Link
+            href={`/projects/${prev.slug}`}
+            className="group p-5 rounded-card border border-border bg-surface hover:border-accent/50 transition-colors"
+          >
+            <span className="flex items-center gap-1 text-xs text-muted">
+              <ArrowLeft className="w-3 h-3 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
+              Previous · {projectCode(prev.order)}
+            </span>
+            <span className="mt-1 block font-semibold text-fg group-hover:text-accent transition-colors">
+              {prev.title}
+            </span>
+          </Link>
+        ) : (
+          <span className="hidden sm:block" />
+        )}
+        {next && (
+          <Link
+            href={`/projects/${next.slug}`}
+            className="group p-5 rounded-card border border-border bg-surface hover:border-accent/50 transition-colors sm:text-right"
+          >
+            <span className="flex items-center gap-1 text-xs text-muted sm:justify-end">
+              Next · {projectCode(next.order)}
+              <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+            </span>
+            <span className="mt-1 block font-semibold text-fg group-hover:text-accent transition-colors">
+              {next.title}
+            </span>
+          </Link>
+        )}
+      </nav>
     </div>
   );
 }
