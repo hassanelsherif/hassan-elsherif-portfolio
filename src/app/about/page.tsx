@@ -36,14 +36,22 @@ export default function AboutPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <SectionHeading
-        label="Background"
-        title="About Hassan"
-        subtitle={profile.experienceSummary}
-      />
+      <SectionHeading label="Background" title="About Hassan" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-12">
+          {/* Story replaces the summary subtitle, which repeated the home page word for word */}
+          <section aria-label="My story" className="space-y-4">
+            {profile.story.map((para, i) => (
+              <p
+                key={i}
+                className={i === 0 ? "text-lg text-fg/90 leading-relaxed" : "text-muted leading-relaxed"}
+              >
+                {para}
+              </p>
+            ))}
+          </section>
+
           <section aria-labelledby="approach-heading">
             <h2
               id="approach-heading"
