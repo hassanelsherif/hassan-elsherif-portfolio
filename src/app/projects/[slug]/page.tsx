@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/Badge";
 import { Chip } from "@/components/ui/Chip";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { buttonVariants } from "@/components/ui/Button";
+import { ArchitectureDiagram } from "@/components/case-study/ArchitectureDiagram";
 import { CodeBlock } from "@/components/case-study/CodeBlock";
 import { EvidenceGallery } from "@/components/case-study/EvidenceGallery";
 import { TableOfContents, type TocItem } from "@/components/case-study/TableOfContents";
@@ -28,6 +29,7 @@ import {
   projects,
 } from "@/content/projects";
 import { evidence } from "@/content/evidence";
+import { architectureDiagrams } from "@/content/architecture";
 import { projectCode } from "@/lib/utils";
 
 interface Props {
@@ -70,6 +72,7 @@ export default function ProjectDetailPage({ params }: Props) {
   const details = getProjectDetails(params.slug);
   const gallery = evidence[project.slug];
   const results = projectResults[project.slug];
+  const diagram = architectureDiagrams[project.slug];
 
   const ordered = [...projects].sort((a, b) => a.order - b.order);
   const pos = ordered.findIndex((p) => p.slug === project.slug);
@@ -151,14 +154,24 @@ export default function ProjectDetailPage({ params }: Props) {
             <SectionTitle id="architecture" icon={Layers}>
               Architecture
             </SectionTitle>
-            <div className="rounded-card overflow-hidden border border-slate-700/60 bg-[#0A0F1C] ring-1 ring-white/5">
-              <div className="px-4 py-2 border-b border-slate-700/60 bg-slate-900/60 font-mono text-xs text-slate-400">
-                architecture.txt
-              </div>
-              <pre className="overflow-x-auto p-5 text-xs font-mono text-sky-200 leading-relaxed whitespace-pre">
+            {diagram ? (
+              <>
+                <ArchitectureDiagram id={`arch-${project.slug}`} diagram={diagram} />
+                <p className="mt-2 text-xs text-muted sm:hidden">Scroll sideways to see the full diagram.</p>
+                <details className="group mt-3">
+                  <summary className="cursor-pointer select-none text-xs text-muted hover:text-accent transition-colors">
+                    View as text
+                  </summary>
+                  <pre className="mt-3 overflow-x-auto rounded-card border border-slate-700/60 bg-[#0A0F1C] p-5 text-xs font-mono text-slate-200 leading-relaxed whitespace-pre">
+                    {details.architecture}
+                  </pre>
+                </details>
+              </>
+            ) : (
+              <pre className="overflow-x-auto rounded-card border border-slate-700/60 bg-[#0A0F1C] p-5 text-xs font-mono text-slate-200 leading-relaxed whitespace-pre">
                 {details.architecture}
               </pre>
-            </div>
+            )}
           </section>
 
           <section aria-labelledby="implementation">

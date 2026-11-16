@@ -373,8 +373,8 @@ kind delete cluster --name p03-cluster`,
   │  webhook sink        │            └────────┬────────┘
   └──────────────────────┘                     │ query
                                                ▼
-  Node Exporter :9100 ──────────────► ┌─────────────────┐
-  (CPU, memory, disk)                 │  Grafana  :3000 │
+  Node Exporter :9100 (disabled)      ┌─────────────────┐
+  (CPU, memory, disk)                 │  Grafana  :3002 │
                                       │  dashboards     │
                                       └─────────────────┘
     `.trim(),
@@ -467,7 +467,7 @@ done
   │  ├── data.tar.gz       (compressed archive) │
   │  └── checksums.sha256  (integrity proof)    │
   │                                             │
-  │  Lifecycle rule: expire after 30 days       │
+  │  Lifecycle rule: 30 days (commented out)    │
   └──────────────────────────────────────────────┘
           │
           │  restore.py
@@ -573,6 +573,7 @@ export interface ProjectResult {
 /**
  * Headline outcomes for each case study. Every value is backed by an evidence
  * screenshot or by the lab's own config files — nothing estimated.
+ * The first item is the headline shown on the project's card cover.
  */
 export const projectResults: Record<string, { items: ProjectResult[]; source: string }> = {
   "aws-infrastructure-as-code": {
@@ -586,25 +587,25 @@ export const projectResults: Record<string, { items: ProjectResult[]; source: st
   "secure-cicd-pipeline": {
     source: "From the GitHub Actions run and GHCR package in the evidence gallery.",
     items: [
-      { value: "4", label: "gated stages: test → scan → push → deploy" },
       { value: "CRITICAL", label: "CVE caught and blocked by Trivy" },
+      { value: "4", label: "gated stages: test → scan → push → deploy" },
       { value: "sha-fcf3bc1", label: "immutable, commit-tagged image" },
     ],
   },
   "kubernetes-application-platform": {
     source: "From the Helm chart values (helm/p03-app/values.yaml).",
     items: [
-      { value: "2", label: "replicas behind a Service + Ingress" },
       { value: "Non-root", label: "read-only root filesystem" },
+      { value: "2", label: "replicas behind a Service + Ingress" },
       { value: "2 probes", label: "liveness + readiness gate traffic" },
     ],
   },
   "observability-and-incident-response": {
     source: "From the Prometheus rules and the failure-simulation screenshots.",
     items: [
+      { value: "UP → DOWN → OK", label: "full incident cycle captured" },
       { value: "3", label: "alert rules: AppDown, error rate, latency" },
       { value: "1 min", label: "AppDown pending window before firing" },
-      { value: "UP → DOWN → OK", label: "full incident cycle captured" },
     ],
   },
   "aws-backup-and-disaster-recovery": {
