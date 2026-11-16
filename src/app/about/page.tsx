@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Briefcase, Code2, Lightbulb, MapPin, Target, Award } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { Card } from "@/components/ui/Card";
@@ -35,12 +36,19 @@ export default function AboutPage() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <SectionHeading label="Background" title="About Hassan" subtitle={profile.experienceSummary} />
+      <SectionHeading
+        label="Background"
+        title="About Hassan"
+        subtitle={profile.experienceSummary}
+      />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <div className="lg:col-span-2 space-y-12">
           <section aria-labelledby="approach-heading">
-            <h2 id="approach-heading" className="flex items-center gap-2 text-lg font-semibold text-fg mb-4">
+            <h2
+              id="approach-heading"
+              className="flex items-center gap-2 text-lg font-semibold text-fg mb-4"
+            >
               <Lightbulb className="w-5 h-5 text-accent" aria-hidden="true" />
               Engineering approach
             </h2>
@@ -48,7 +56,10 @@ export default function AboutPage() {
           </section>
 
           <section aria-labelledby="skills-heading">
-            <h2 id="skills-heading" className="flex items-center gap-2 text-lg font-semibold text-fg mb-5">
+            <h2
+              id="skills-heading"
+              className="flex items-center gap-2 text-lg font-semibold text-fg mb-5"
+            >
               <Code2 className="w-5 h-5 text-accent" aria-hidden="true" />
               Skills & technologies
             </h2>
@@ -56,7 +67,9 @@ export default function AboutPage() {
               {skillCategories.map((cat, i) => (
                 <Reveal key={cat.label} delay={(i % 2) * 70}>
                   <Card className="h-full p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-3">{cat.label}</p>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-3">
+                      {cat.label}
+                    </p>
                     <div className="flex flex-wrap gap-1.5">
                       {cat.skills.map((skill) => (
                         <Chip key={skill}>{skill}</Chip>
@@ -70,8 +83,27 @@ export default function AboutPage() {
         </div>
 
         <aside className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+          <Card className="p-0 overflow-hidden">
+            <div className="relative aspect-square bg-[#0A0F1C]">
+              <Image
+                src={profile.photo}
+                alt={`Portrait of ${profile.name}`}
+                fill
+                sizes="(min-width: 1024px) 340px, (min-width: 640px) 60vw, 100vw"
+                className="object-cover"
+                priority
+              />
+              <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" />
+              <p className="absolute bottom-4 left-5 right-5 text-white">
+                <span className="block text-lg font-semibold">{profile.name}</span>
+                <span className="block text-sm text-white/80">{profile.targetRole}</span>
+              </p>
+            </div>
+          </Card>
           <Card>
-            <h2 className="font-mono text-xs uppercase tracking-widest text-muted mb-4">Quick facts</h2>
+            <h2 className="font-mono text-xs uppercase tracking-widest text-muted mb-4">
+              Quick facts
+            </h2>
             <dl className="space-y-4">
               {facts.map(({ Icon, label, value }) => (
                 <div key={label} className="flex gap-3">
@@ -94,7 +126,9 @@ export default function AboutPage() {
               <span className="block text-sm font-semibold text-fg group-hover:text-accent transition-colors">
                 Experience & credentials
               </span>
-              <span className="block text-xs text-muted mt-0.5">Roles, education and certifications</span>
+              <span className="block text-xs text-muted mt-0.5">
+                Roles, education and certifications
+              </span>
             </span>
             <ArrowRight
               className="w-4 h-4 text-accent shrink-0 transition-transform group-hover:translate-x-0.5"

@@ -6,6 +6,7 @@ export const profile = {
   email: "hassanelsherif73x@gmail.com",
   linkedin: "https://www.linkedin.com/in/hassanelsherifx/",
   github: "https://github.com/hassanelsherif",
+  photo: "/images/profile.jpg",
   experienceSummary:
     "3+ years in cloud infrastructure, system administration and enterprise application support. Currently managing and supporting AWS infrastructure hosting AI-powered computer vision applications at Shelter Technology.",
   engineeringApproach:

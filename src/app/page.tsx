@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import { ArrowRight, Download, Github, Linkedin, Mail, Terminal } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { buttonVariants } from "@/components/ui/Button";
@@ -31,10 +32,22 @@ const HIGHLIGHT_TECHS = [
 
 // One principle per lab, in project order — each step links to the lab that demonstrates it
 const PRINCIPLES: Record<number, { verb: string; text: string }> = {
-  1: { verb: "Codify", text: "Infrastructure lives in Terraform, plans are reviewed, re-plans show zero drift." },
-  2: { verb: "Automate", text: "Every change passes lint, tests and an image scan before it can ship." },
-  3: { verb: "Orchestrate", text: "Workloads roll out with probes, limits and self-healing by default." },
-  4: { verb: "Observe", text: "Metrics, dashboards and alerts tell me something broke before users do." },
+  1: {
+    verb: "Codify",
+    text: "Infrastructure lives in Terraform, plans are reviewed, re-plans show zero drift.",
+  },
+  2: {
+    verb: "Automate",
+    text: "Every change passes lint, tests and an image scan before it can ship.",
+  },
+  3: {
+    verb: "Orchestrate",
+    text: "Workloads roll out with probes, limits and self-healing by default.",
+  },
+  4: {
+    verb: "Observe",
+    text: "Metrics, dashboards and alerts tell me something broke before users do.",
+  },
   5: { verb: "Recover", text: "Backups are only real once a timed restore has been verified." },
 };
 
@@ -48,7 +61,10 @@ export default function HomePage() {
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
       <section aria-labelledby="hero-heading" className="relative overflow-hidden -mt-16 pt-16">
-        <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden" aria-hidden="true">
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+          aria-hidden="true"
+        >
           <div className="absolute inset-0 bg-dot-grid" />
           <div className="absolute top-0 right-0 w-[640px] h-[640px] bg-accent/15 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
           <div className="absolute top-1/4 left-0 w-[420px] h-[420px] bg-violet-500/10 rounded-full blur-3xl -translate-x-1/2" />
@@ -56,16 +72,32 @@ export default function HomePage() {
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-20 sm:pb-24 grid gap-12 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
           <div className="max-w-3xl animate-fade-in">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 mb-6 pl-2 pr-3 py-1 rounded-full text-xs font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:border-emerald-500/60 transition-colors"
-            >
-              <span className="relative flex w-2 h-2" aria-hidden="true">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
-                <span className="relative inline-flex w-2 h-2 rounded-full bg-emerald-500" />
-              </span>
-              Open to {profile.targetRole} roles
-            </Link>
+            <div className="flex items-center gap-3 mb-6">
+              <Link
+                href="/about"
+                className="shrink-0 rounded-full"
+                aria-label={`About ${profile.name}`}
+              >
+                <Image
+                  src={profile.photo}
+                  alt=""
+                  width={56}
+                  height={56}
+                  priority
+                  className="w-14 h-14 rounded-full object-cover ring-2 ring-accent/60 ring-offset-2 ring-offset-bg"
+                />
+              </Link>
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-2 pl-2 pr-3 py-1 rounded-full text-xs font-medium border border-emerald-500/30 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 hover:border-emerald-500/60 transition-colors"
+              >
+                <span className="relative flex w-2 h-2" aria-hidden="true">
+                  <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
+                  <span className="relative inline-flex w-2 h-2 rounded-full bg-emerald-500" />
+                </span>
+                Open to {profile.targetRole} roles
+              </Link>
+            </div>
 
             <h1
               id="hero-heading"
@@ -140,9 +172,17 @@ export default function HomePage() {
           <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-card border border-border bg-border">
             {[
               { value: "3+ years", label: "Cloud infrastructure & system administration" },
-              { value: "AWS SA Associate", label: `${latestCert.issuer} certification, ${latestCert.year}` },
+              {
+                value: "AWS SA Associate",
+                label: `${latestCert.issuer} certification, ${latestCert.year}`,
+              },
               { value: `${projects.length} labs`, label: "Each with code, a runbook and evidence" },
-              { value: currentRole.title, label: currentRole.company, href: "/experience", cta: "Full history" },
+              {
+                value: currentRole.title,
+                label: currentRole.company,
+                href: "/experience",
+                cta: "Full history",
+              },
             ].map((stat) => (
               <div key={stat.value} className="bg-surface p-5">
                 <dt className="sr-only">{stat.label}</dt>
@@ -173,7 +213,9 @@ export default function HomePage() {
       >
         <div className="flex items-end justify-between gap-4 mb-8">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">Lab projects</p>
+            <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">
+              Lab projects
+            </p>
             <h2 id="projects-heading" className="text-2xl sm:text-3xl font-bold text-fg">
               DevOps Portfolio
             </h2>
@@ -232,7 +274,9 @@ export default function HomePage() {
                       <span className="mt-3 text-lg font-semibold text-fg group-hover:text-accent transition-colors">
                         {principle.verb}
                       </span>
-                      <span className="mt-2 text-sm text-muted leading-relaxed">{principle.text}</span>
+                      <span className="mt-2 text-sm text-muted leading-relaxed">
+                        {principle.text}
+                      </span>
                       <span className="mt-auto pt-4 inline-flex items-center gap-1 text-xs font-medium text-accent">
                         {project.title}
                         <ArrowRight
@@ -249,17 +293,23 @@ export default function HomePage() {
       </section>
 
       {/* ── CTA strip ────────────────────────────────────────── */}
-      <section aria-labelledby="cta-heading" className="px-4 sm:px-6 lg:px-8 pb-20 pt-4 max-w-6xl mx-auto">
+      <section
+        aria-labelledby="cta-heading"
+        className="px-4 sm:px-6 lg:px-8 pb-20 pt-4 max-w-6xl mx-auto"
+      >
         <Reveal>
           <div className="relative overflow-hidden rounded-card border border-accent/20 bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/20 dark:to-accent/5 p-8 sm:p-12 text-center">
-            <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-60" aria-hidden="true" />
+            <div
+              className="pointer-events-none absolute inset-0 bg-dot-grid opacity-60"
+              aria-hidden="true"
+            />
             <div className="relative">
               <h2 id="cta-heading" className="text-2xl sm:text-3xl font-bold text-fg mb-3">
                 Available for new opportunities
               </h2>
               <p className="text-muted mb-8 max-w-xl mx-auto">
-                Looking for mid-level Cloud / DevOps Engineer roles. Happy to discuss infrastructure,
-                architecture, or operational challenges.
+                Looking for mid-level Cloud / DevOps Engineer roles. Happy to discuss
+                infrastructure, architecture, or operational challenges.
               </p>
               <Link href="/contact" className={buttonVariants({ size: "lg" })}>
                 <Mail className="w-4 h-4" aria-hidden="true" />
