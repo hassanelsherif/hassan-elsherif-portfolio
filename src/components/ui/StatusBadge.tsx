@@ -17,8 +17,8 @@ const statusConfig: Record<ProjectStatus, { label: string; classes: string; dotC
   planned: {
     label: "Planned",
     classes:
-      "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400 border border-gray-200 dark:border-gray-700",
-    dotClass: "bg-gray-400",
+      "bg-subtle text-muted border border-border",
+    dotClass: "bg-muted",
   },
 };
 

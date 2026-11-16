@@ -13,19 +13,18 @@ const config: Config = {
         // Theme tokens — values live in globals.css (:root / .dark)
         bg: "rgb(var(--bg) / <alpha-value>)",
         surface: "rgb(var(--surface) / <alpha-value>)",
-        accent: "rgb(var(--accent) / <alpha-value>)",
+        subtle: "rgb(var(--subtle) / <alpha-value>)",
+        border: "rgb(var(--border) / <alpha-value>)",
+        accent: {
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          hover: "rgb(var(--accent-hover) / <alpha-value>)",
+        },
         fg: "rgb(var(--fg) / <alpha-value>)",
         muted: "rgb(var(--muted) / <alpha-value>)",
       },
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "Menlo", "monospace"],
-      },
-      spacing: {
-        "2": "8px",
-        "4": "16px",
-        "6": "24px",
-        "8": "32px",
       },
       borderRadius: {
         card: "12px",

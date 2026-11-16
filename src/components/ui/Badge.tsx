@@ -23,8 +23,7 @@ export function Badge({ label, variant = "default", className }: BadgeProps) {
     <span
       className={cn(
         "inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md text-xs font-mono font-medium",
-        "bg-gray-100 text-gray-700 border border-gray-200",
-        "dark:bg-white/5 dark:text-gray-300 dark:border-white/10",
+        "bg-subtle text-fg/80 border border-border",
         className
       )}
     >
