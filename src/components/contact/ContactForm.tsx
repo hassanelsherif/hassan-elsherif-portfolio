@@ -219,7 +219,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitState === "sending"}
-        className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-accent-hover shadow-sm shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150"
+        className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-accent-fg hover:bg-accent-hover shadow-sm shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150"
         aria-busy={submitState === "sending"}
       >
         {submitState === "sending" ? (

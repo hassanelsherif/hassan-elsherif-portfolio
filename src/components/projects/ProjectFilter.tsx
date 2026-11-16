@@ -60,7 +60,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
                 className={cn(
                   "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium border transition-colors duration-150",
                   active
-                    ? "bg-accent text-white border-accent"
+                    ? "bg-accent text-accent-fg border-accent"
                     : "bg-subtle text-muted border-border hover:text-fg hover:border-accent/40"
                 )}
                 aria-pressed={active}
@@ -69,7 +69,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
                 <span
                   className={cn(
                     "px-1 rounded text-[10px] tabular-nums",
-                    active ? "bg-white/20" : "bg-bg/60"
+                    active ? "bg-accent-fg/15" : "bg-bg/60"
                   )}
                 >
                   {count}

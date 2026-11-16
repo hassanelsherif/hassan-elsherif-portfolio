@@ -9,8 +9,9 @@
     --surface: 255 255 255; /* #FFFFFF */
     --subtle: 241 245 249; /* #F1F5F9 — chips, inset panels */
     --border: 226 232 240; /* #E2E8F0 */
-    --accent: 37 99 235; /* #2563EB */
-    --accent-hover: 29 78 216; /* #1D4ED8 */
+    --accent: 15 118 110; /* #0F766E teal-700: 5.5:1 on white */
+    --accent-hover: 17 94 89; /* #115E59 */
+    --accent-fg: 255 255 255; /* text on accent fills */
     --fg: 15 23 42; /* #0F172A */
     --muted: 71 85 105; /* #475569 */
     color-scheme: light;
@@ -21,8 +22,9 @@
     --surface: 17 24 39; /* #111827 */
     --subtle: 30 41 59; /* #1E293B */
     --border: 31 41 55; /* #1F2937 */
-    --accent: 59 130 246; /* #3B82F6 */
-    --accent-hover: 96 165 250; /* #60A5FA */
+    --accent: 45 212 191; /* #2DD4BF teal-400 */
+    --accent-hover: 94 234 212; /* #5EEAD4 */
+    --accent-fg: 4 47 46; /* #042F2E: dark text on the bright fill */
     --fg: 229 231 235; /* #E5E7EB */
     --muted: 148 163 184; /* #94A3B8 */
     /* Native scrollbars, inputs and pickers follow the theme */

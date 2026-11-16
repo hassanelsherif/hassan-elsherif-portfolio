@@ -27,7 +27,7 @@ export default function OpengraphImage() {
           fontFamily: "sans-serif",
         }}
       >
-        <div style={{ display: "flex", fontSize: 28, color: "#3B82F6", fontFamily: "monospace" }}>
+        <div style={{ display: "flex", fontSize: 28, color: "#2DD4BF", fontFamily: "monospace" }}>
           hassan@devops:~$
         </div>
 
@@ -35,7 +35,7 @@ export default function OpengraphImage() {
           <div style={{ display: "flex", fontSize: 88, fontWeight: 700, letterSpacing: -2 }}>
             {profile.name}
           </div>
-          <div style={{ display: "flex", fontSize: 44, color: "#3B82F6", marginTop: 8 }}>
+          <div style={{ display: "flex", fontSize: 44, color: "#2DD4BF", marginTop: 8 }}>
             {profile.targetRole}
           </div>
           <div style={{ display: "flex", fontSize: 28, color: "#94A3B8", marginTop: 24 }}>
