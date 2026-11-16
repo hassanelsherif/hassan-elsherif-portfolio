@@ -69,8 +69,8 @@ export function ContactForm() {
   }
 
   const inputBase =
-    "w-full px-3 py-2.5 rounded-md bg-gray-50 dark:bg-gray-800/60 border text-sm text-fg placeholder-gray-400 dark:placeholder-gray-600 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent";
-  const inputNormal = "border-gray-300 dark:border-gray-700";
+    "w-full px-3 py-2.5 rounded-md bg-bg border text-sm text-fg placeholder:text-muted/60 transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent";
+  const inputNormal = "border-border hover:border-muted/40";
   const inputError = "border-red-400 dark:border-red-600";
 
   if (submitState === "success") {
@@ -219,7 +219,7 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={submitState === "sending"}
-        className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150"
+        className="w-full flex items-center justify-center gap-2 px-5 py-3 rounded-md text-sm font-semibold bg-accent text-white hover:bg-accent-hover shadow-sm shadow-accent/20 disabled:opacity-60 disabled:cursor-not-allowed transition-colors duration-150"
         aria-busy={submitState === "sending"}
       >
         {submitState === "sending" ? (

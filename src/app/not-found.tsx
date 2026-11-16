@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Home, FolderOpen } from "lucide-react";
+import { buttonVariants } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
@@ -12,14 +13,14 @@ export default function NotFound() {
       <div className="flex flex-wrap justify-center gap-3">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-medium bg-accent text-white hover:bg-blue-700 dark:hover:bg-blue-500 transition-colors"
+          className={buttonVariants()}
         >
           <Home className="w-4 h-4" aria-hidden="true" />
           Home
         </Link>
         <Link
           href="/projects"
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md text-sm font-medium border border-gray-200 dark:border-gray-700 text-fg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+          className={buttonVariants({ variant: "secondary" })}
         >
           <FolderOpen className="w-4 h-4" aria-hidden="true" />
           Projects

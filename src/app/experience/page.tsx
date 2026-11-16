@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { roles, certifications, education } from "@/content/experience";
+import { Reveal } from "@/components/ui/Reveal";
 import { Briefcase, GraduationCap, Award, CheckCircle } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -11,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <SectionHeading
         label="Career"
         title="Professional Experience"
@@ -26,7 +27,7 @@ export default function ExperiencePage() {
         <div className="relative">
           {/* Vertical line */}
           <div
-            className="absolute left-[18px] top-0 bottom-0 w-px bg-gray-200 dark:bg-gray-800 hidden sm:block"
+            className="absolute left-[18px] top-6 bottom-6 w-px bg-gradient-to-b from-accent/60 via-border to-border hidden sm:block"
             aria-hidden="true"
           />
 
@@ -38,17 +39,16 @@ export default function ExperiencePage() {
               >
                 {/* Timeline dot */}
                 <div
-                  className="absolute left-[10px] top-5 w-4 h-4 rounded-full border-2 hidden sm:block
-                    border-accent
-                    bg-bg"
+                  className="absolute left-[11px] top-6 w-[15px] h-[15px] rounded-full border-2 hidden sm:block border-accent bg-bg"
                   aria-hidden="true"
                 >
                   {role.current && (
-                    <span className="absolute inset-0.5 rounded-full bg-accent" />
+                    <span className="absolute inset-[2px] rounded-full bg-accent" />
                   )}
                 </div>
 
-                <div className="p-6 rounded-card bg-surface border border-gray-200 dark:border-gray-800">
+                <Reveal>
+                <div className="p-6 rounded-card bg-surface border border-border hover:border-accent/30 transition-colors">
                   {/* Header */}
                   <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-4">
                     <div>
@@ -58,7 +58,7 @@ export default function ExperiencePage() {
                         </h3>
                         {role.current && (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
-                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" aria-hidden="true" />
+                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" aria-hidden="true" />
                             Current
                           </span>
                         )}
@@ -88,6 +88,7 @@ export default function ExperiencePage() {
                     ))}
                   </ul>
                 </div>
+                </Reveal>
               </article>
             ))}
           </div>
@@ -107,7 +108,7 @@ export default function ExperiencePage() {
             {education.map((edu) => (
               <div
                 key={edu.degree}
-                className="p-5 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
+                className="p-5 rounded-card bg-surface border border-border"
               >
                 <p className="font-semibold text-sm text-fg">{edu.degree}</p>
                 <p className="text-sm text-muted mt-0.5">{edu.institution}</p>
@@ -130,7 +131,7 @@ export default function ExperiencePage() {
             {certifications.map((cert) => (
               <div
                 key={cert.name}
-                className="p-5 rounded-card bg-surface border border-gray-200 dark:border-gray-800"
+                className="p-5 rounded-card bg-surface border border-border"
               >
                 <p className="font-semibold text-sm text-fg">{cert.name}</p>
                 {cert.issuer && (

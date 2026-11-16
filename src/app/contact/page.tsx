@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
       <SectionHeading
         label="Get in touch"
         title="Contact"
@@ -31,7 +31,7 @@ export default function ContactPage() {
                 href={`mailto:${profile.email}`}
                 className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
               >
-                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-950/30 transition-colors">
+                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-subtle text-accent group-hover:bg-accent/10 transition-colors">
                   <Mail className="w-4 h-4" aria-hidden="true" />
                 </div>
                 {profile.email}
@@ -42,7 +42,7 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
               >
-                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-950/30 transition-colors">
+                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-subtle text-accent group-hover:bg-accent/10 transition-colors">
                   <Linkedin className="w-4 h-4" aria-hidden="true" />
                 </div>
                 LinkedIn
@@ -53,13 +53,13 @@ export default function ContactPage() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
               >
-                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800 group-hover:bg-blue-50 dark:group-hover:bg-blue-950/30 transition-colors">
+                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-subtle text-accent group-hover:bg-accent/10 transition-colors">
                   <Github className="w-4 h-4" aria-hidden="true" />
                 </div>
                 GitHub
               </a>
               <div className="flex items-center gap-3 text-sm text-muted">
-                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-gray-100 dark:bg-gray-800">
+                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-subtle text-accent">
                   <MapPin className="w-4 h-4" aria-hidden="true" />
                 </div>
                 {profile.location}
@@ -68,7 +68,7 @@ export default function ContactPage() {
           </div>
 
           {/* Privacy notice */}
-          <div className="p-4 rounded-card bg-gray-50 dark:bg-gray-800/40 border border-gray-200 dark:border-gray-700">
+          <div className="p-4 rounded-card bg-subtle/60 border border-border">
             <p className="text-xs text-muted leading-relaxed">
               <strong className="text-fg">Privacy:</strong> Form messages are
               processed via{" "}
@@ -88,7 +88,7 @@ export default function ContactPage() {
 
         {/* Form column */}
         <div className="lg:col-span-3">
-          <div className="p-6 sm:p-8 rounded-card bg-surface border border-gray-200 dark:border-gray-800">
+          <div className="p-6 sm:p-8 rounded-card bg-surface border border-border shadow-sm">
             <ContactForm />
           </div>
         </div>
