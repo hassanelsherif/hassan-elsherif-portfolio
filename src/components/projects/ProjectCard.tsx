@@ -1,9 +1,9 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, Boxes, Github } from "lucide-react";
+import { ArrowRight, Github } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "@/components/ui/StatusBadge";
-import { cn, projectCode } from "@/lib/utils";
+import { cn } from "@/lib/utils";
+import { ProjectCover } from "@/components/projects/ProjectCover";
 import type { Project } from "@/types";
 
 interface ProjectCardProps {
@@ -25,29 +25,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
         className
       )}
     >
-      {/* Cover: real evidence screenshot, or a styled placeholder */}
-      <div className="relative h-40 overflow-hidden border-b border-border bg-[#0A0F1C]" aria-hidden="true">
-        {project.coverImage ? (
-          <>
-            <Image
-              src={project.coverImage}
-              alt=""
-              fill
-              sizes="(min-width: 1024px) 360px, (min-width: 640px) 50vw, 100vw"
-              className="object-cover object-left-top opacity-90 transition-transform duration-300 group-hover:scale-[1.03] group-hover:opacity-100"
-            />
-            <div className="absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-[#0A0F1C]/70 to-transparent" />
-          </>
-        ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-accent/30 via-[#0A0F1C] to-violet-500/20">
-            <div className="absolute inset-0 bg-dot-grid opacity-60" />
-            <Boxes className="relative w-12 h-12 text-accent/80" />
-          </div>
-        )}
-        <span className="absolute top-3 left-3 px-1.5 py-0.5 rounded font-mono text-[11px] font-semibold text-white/90 bg-black/50 backdrop-blur-sm">
-          {projectCode(project.order)}
-        </span>
-      </div>
+      <ProjectCover project={project} />
 
       <div className="p-5 flex-1 flex flex-col">
         <div className="mb-3">
