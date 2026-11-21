@@ -35,6 +35,8 @@ export interface Certification {
   issuer: string;
   year: string;
   verifyUrl?: string;
+  /** Path under /public to the badge image, e.g. /images/badges/aws-saa.png */
+  badge?: string;
 }
 
 export interface Education {
@@ -42,4 +44,6 @@ export interface Education {
   institution: string;
   startYear: string;
   endYear: string;
+  /** Path under /public to the institution logo */
+  logo?: string;
 }

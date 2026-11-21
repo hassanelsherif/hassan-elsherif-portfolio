@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SectionTitle } from "@/components/ui/SectionLabel";
 import { roles, certifications, education } from "@/content/experience";
@@ -85,14 +86,27 @@ export default function ExperiencePage() {
           </SectionTitle>
           <ul className="border-t border-border">
             {education.map((edu) => (
-              <li key={edu.degree} className="py-5 border-b border-border">
-                <p className="font-display text-lg font-semibold tracking-tight text-fg">
-                  {edu.degree}
-                </p>
-                <p className="text-sm text-muted mt-0.5">{edu.institution}</p>
-                <p className="font-mono text-xs text-muted mt-2">
-                  {edu.startYear} – {edu.endYear}
-                </p>
+              <li key={edu.degree} className="flex items-start gap-4 py-5 border-b border-border">
+                {edu.logo && (
+                  <div className="shrink-0 flex items-center justify-center w-14 h-14 rounded-lg bg-white border border-border p-2">
+                    <Image
+                      src={edu.logo}
+                      alt={`${edu.institution} logo`}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-contain"
+                    />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="font-display text-lg font-semibold tracking-tight text-fg">
+                    {edu.degree}
+                  </p>
+                  <p className="text-sm text-muted mt-0.5">{edu.institution}</p>
+                  <p className="font-mono text-xs text-muted mt-2">
+                    {edu.startYear} – {edu.endYear}
+                  </p>
+                </div>
               </li>
             ))}
           </ul>
@@ -104,27 +118,38 @@ export default function ExperiencePage() {
           </SectionTitle>
           <ul className="border-t border-border">
             {certifications.map((cert) => (
-              <li key={cert.name} className="py-5 border-b border-border">
-                <p className="font-display text-lg font-semibold tracking-tight text-fg">
-                  {cert.name}
-                </p>
-                {cert.issuer && <p className="text-sm text-muted mt-0.5">{cert.issuer}</p>}
-                <div className="flex items-center justify-between mt-2">
-                  <p className="font-mono text-xs text-accent">{cert.year}</p>
-                  {cert.verifyUrl && (
-                    <a
-                      href={cert.verifyUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
-                    >
-                      Verify
-                      <ArrowUpRight
-                        className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-                        aria-hidden="true"
-                      />
-                    </a>
-                  )}
+              <li key={cert.name} className="flex items-start gap-4 py-5 border-b border-border">
+                {cert.badge && (
+                  <Image
+                    src={cert.badge}
+                    alt={`${cert.name} badge`}
+                    width={64}
+                    height={64}
+                    className="shrink-0 w-16 h-16 object-contain"
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <p className="font-display text-lg font-semibold tracking-tight text-fg">
+                    {cert.name}
+                  </p>
+                  {cert.issuer && <p className="text-sm text-muted mt-0.5">{cert.issuer}</p>}
+                  <div className="flex items-center justify-between mt-2">
+                    <p className="font-mono text-xs text-accent">{cert.year}</p>
+                    {cert.verifyUrl && (
+                      <a
+                        href={cert.verifyUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
+                      >
+                        Verify
+                        <ArrowUpRight
+                          className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                          aria-hidden="true"
+                        />
+                      </a>
+                    )}
+                  </div>
                 </div>
               </li>
             ))}

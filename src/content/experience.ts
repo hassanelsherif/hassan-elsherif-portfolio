@@ -47,12 +47,15 @@ export const certifications: Certification[] = [
     issuer: "Amazon Web Services",
     year: "2025",
     verifyUrl: "https://www.credly.com/badges/d724362f-f885-4b6e-a156-a58ae1672398/public_url",
+    badge: "/images/badges/aws-saa.png",
   },
   {
     name: "AWS Certified Cloud Practitioner",
     issuer: "Amazon Web Services",
     year: "2025",
-    verifyUrl: "https://www.credly.com/badges/27a5d3d2-1d8a-4bfe-904a-1f8a12b15570/linked_in_profile",
+    verifyUrl:
+      "https://www.credly.com/badges/27a5d3d2-1d8a-4bfe-904a-1f8a12b15570/linked_in_profile",
+    badge: "/images/badges/aws-ccp.png",
   },
 ];
 
@@ -60,12 +63,14 @@ export const education: Education[] = [
   {
     degree: "AWS Cloud Computing Bootcamp",
     institution: "ALX",
+    logo: "/images/logos/alx.svg",
     startYear: "Jan 2025",
     endYear: "Oct 2025",
   },
   {
     degree: "Bachelor of Science in Computer Science",
     institution: "El-Shorouk Academy",
+    logo: "/images/logos/el-shorouk-academy.png",
     startYear: "Sep 2017",
     endYear: "Jun 2021",
   },
