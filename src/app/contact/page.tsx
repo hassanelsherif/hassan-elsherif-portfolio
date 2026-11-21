@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Mail, Linkedin, Github, MapPin } from "lucide-react";
+import { ArrowUpRight, Linkedin, Github, MapPin } from "lucide-react";
+import { SectionLabel } from "@/components/ui/SectionLabel";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ContactForm } from "@/components/contact/ContactForm";
 import { profile } from "@/content/profile";
@@ -12,10 +13,10 @@ export const metadata: Metadata = {
 
 export default function ContactPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-20">
       <SectionHeading
-        label="Get in touch"
-        title="Contact"
+        label="Contact"
+        title="Let's talk"
         subtitle="Open to mid-level Cloud / DevOps Engineer opportunities. Feel free to reach out about roles, architecture discussions, or anything infrastructure related."
       />
 
@@ -23,19 +24,20 @@ export default function ContactPage() {
         {/* Info column */}
         <aside className="lg:col-span-2 space-y-6">
           <div>
-            <h2 className="text-sm font-semibold text-fg mb-4">
+            <SectionLabel n={1} className="mb-4">
               Direct contact
-            </h2>
+            </SectionLabel>
+            <a
+              href={`mailto:${profile.email}`}
+              className="group mb-8 flex items-start gap-1.5 font-display text-xl sm:text-2xl font-medium tracking-tight text-fg hover:text-accent transition-colors [overflow-wrap:anywhere]"
+            >
+              {profile.email}
+              <ArrowUpRight
+                className="mt-1 w-5 h-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                aria-hidden="true"
+              />
+            </a>
             <div className="space-y-3">
-              <a
-                href={`mailto:${profile.email}`}
-                className="flex items-center gap-3 text-sm text-muted hover:text-accent transition-colors group"
-              >
-                <div className="w-8 h-8 flex items-center justify-center rounded-md bg-subtle text-accent group-hover:bg-accent/10 transition-colors">
-                  <Mail className="w-4 h-4" aria-hidden="true" />
-                </div>
-                {profile.email}
-              </a>
               <a
                 href={profile.linkedin}
                 target="_blank"
@@ -88,6 +90,9 @@ export default function ContactPage() {
 
         {/* Form column */}
         <div className="lg:col-span-3">
+          <SectionLabel n={2} className="mb-4">
+            Send a message
+          </SectionLabel>
           <div className="p-6 sm:p-8 rounded-card bg-surface border border-border shadow-sm">
             <ContactForm />
           </div>

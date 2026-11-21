@@ -7,6 +7,7 @@ import { Menu, X, Download } from "lucide-react";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { buttonVariants } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
+import { ScrollProgress } from "@/components/motion/ScrollProgress";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -24,6 +25,7 @@ function isActive(pathname: string, href: string) {
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const pathname = usePathname();
 
   // Close the mobile menu on any navigation (including back/forward)
@@ -42,9 +44,18 @@ export function Header() {
     };
   }, [mobileOpen]);
 
-  // Border + shadow only once the page has scrolled
+  // Border + shadow once the page has scrolled; slide away while scrolling down,
+  // come back on any scroll up (or near the top)
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      setScrolled(y > 8);
+      if (Math.abs(y - lastY) > 6) {
+        setHidden(y > lastY && y > 160);
+        lastY = y;
+      }
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -69,12 +80,15 @@ export function Header() {
       </a>
       <header
         className={cn(
-          "sticky top-0 z-50 backdrop-blur-md border-b transition-[background-color,border-color,box-shadow] duration-200",
+          "sticky top-0 z-50 backdrop-blur-md border-b transition-[background-color,border-color,box-shadow,transform] duration-300",
+          // Keyboard users never lose the nav: focusing inside brings it back
+          hidden && !mobileOpen && "-translate-y-full focus-within:translate-y-0",
           scrolled || mobileOpen
             ? "bg-bg/85 border-border shadow-sm shadow-black/5 dark:shadow-black/30"
             : "bg-bg/0 border-transparent"
         )}
       >
+        <ScrollProgress />
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <Link

@@ -29,6 +29,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { DrawOnView } from "@/components/motion/DrawOnView";
 import type { Diagram, DiagramTone } from "@/content/architecture";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -94,6 +95,9 @@ const edgeTone: Record<"default" | "accent" | "danger", string> = {
   danger: "stroke-red-500/70",
 };
 
+/** Per-element delay for the draw-in, read by the .d-* rules in globals.css */
+const delay = (ms: number) => ({ "--d": `${Math.round(ms)}ms` }) as React.CSSProperties;
+
 /** Halo behind labels so they stay readable where they cross lines. */
 const halo = "stroke-surface [stroke-width:4px] [paint-order:stroke] [stroke-linejoin:round]";
 
@@ -101,8 +105,15 @@ export function ArchitectureDiagram({ id, diagram }: { id: string; diagram: Diag
   const { width, height, groups = [], nodes, edges = [], notes = [], summary } = diagram;
   const marker = (tone: keyof typeof edgeTone) => `${id}-arrow-${tone}`;
 
+  // Draw-in order: containers, then components, then the wiring between them
+  const NODE_START = 150 + groups.length * 80;
+  const EDGE_START = NODE_START + nodes.length * 60 + 150;
+  const EDGE_STEP = 110;
+  const DRAW_MS = 700;
+  const NOTES_AT = EDGE_START + edges.length * EDGE_STEP + DRAW_MS;
+
   return (
-    <div className="relative overflow-x-auto rounded-card border border-border bg-surface">
+    <DrawOnView className="relative overflow-x-auto rounded-card border border-border bg-surface">
       <div className="pointer-events-none absolute inset-0 bg-dot-grid opacity-50" aria-hidden="true" />
       <svg
         viewBox={`0 0 ${width} ${height}`}
@@ -138,8 +149,8 @@ export function ArchitectureDiagram({ id, diagram }: { id: string; diagram: Diag
         </defs>
 
         {/* Containers (VPC, subnet, cluster…) */}
-        {groups.map((g) => (
-          <g key={g.label}>
+        {groups.map((g, i) => (
+          <g key={g.label} className="d-fade" style={delay(i * 80)}>
             <rect
               x={g.x}
               y={g.y}
@@ -166,24 +177,45 @@ export function ArchitectureDiagram({ id, diagram }: { id: string; diagram: Diag
         {/* Connections (drawn under nodes) */}
         {edges.map((e, i) => {
           const tone = e.tone ?? "default";
+          const d = e.points.map(([x, y], j) => `${j ? "L" : "M"}${x},${y}`).join(" ");
+          const start = EDGE_START + i * EDGE_STEP;
           return (
             <g key={i}>
+              {/* Solid lines draw along their length; dashed ones (their own dash
+                  pattern) fade in instead */}
               <path
-                d={e.points.map(([x, y], j) => `${j ? "L" : "M"}${x},${y}`).join(" ")}
+                d={d}
                 fill="none"
                 strokeWidth={1.5}
                 strokeLinejoin="round"
+                pathLength={e.dashed ? undefined : 1}
                 strokeDasharray={e.dashed ? "5 4" : undefined}
-                markerEnd={e.arrow === false ? undefined : `url(#${marker(tone)})`}
-                className={edgeTone[tone]}
+                className={cn(edgeTone[tone], e.dashed ? "d-fade" : "d-draw")}
+                style={delay(start)}
               />
+              {/* Arrowhead on its own stroke-less copy, so it appears once the line arrives */}
+              {e.arrow !== false && (
+                <path
+                  d={d}
+                  fill="none"
+                  stroke="none"
+                  markerEnd={`url(#${marker(tone)})`}
+                  className="d-pop"
+                  style={delay(start + DRAW_MS - 120)}
+                />
+              )}
               {e.label && (
                 <text
                   x={e.label.x}
                   y={e.label.y}
                   textAnchor={e.label.anchor ?? "middle"}
                   transform={e.label.rotate ? `rotate(${e.label.rotate} ${e.label.x} ${e.label.y})` : undefined}
-                  className={cn("font-mono text-[10.5px]", halo, tone === "danger" ? "fill-red-500" : "fill-muted")}
+                  className={cn(
+                    "font-mono text-[10.5px] d-pop",
+                    halo,
+                    tone === "danger" ? "fill-red-500" : "fill-muted"
+                  )}
+                  style={delay(start + DRAW_MS * 0.5)}
                 >
                   {e.label.text}
                 </text>
@@ -193,12 +225,12 @@ export function ArchitectureDiagram({ id, diagram }: { id: string; diagram: Diag
         })}
 
         {/* Components */}
-        {nodes.map((n) => {
+        {nodes.map((n, i) => {
           const t = nodeTone[n.tone ?? "default"];
           const Icon = n.icon ? ICONS[n.icon] : undefined;
           const lines = n.lines ?? [];
           return (
-            <g key={n.id}>
+            <g key={n.id} className="d-fade" style={delay(NODE_START + i * 60)}>
               <rect
                 x={n.x}
                 y={n.y}
@@ -233,11 +265,17 @@ export function ArchitectureDiagram({ id, diagram }: { id: string; diagram: Diag
         })}
 
         {notes.map((note, i) => (
-          <text key={i} x={note.x} y={note.y} className="font-mono text-[10.5px] fill-muted">
+          <text
+            key={i}
+            x={note.x}
+            y={note.y}
+            className="font-mono text-[10.5px] fill-muted d-pop"
+            style={delay(NOTES_AT + i * 100)}
+          >
             {note.text}
           </text>
         ))}
       </svg>
-    </div>
+    </DrawOnView>
   );
 }

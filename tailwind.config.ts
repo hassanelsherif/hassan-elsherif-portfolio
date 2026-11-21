@@ -26,6 +26,7 @@ const config: Config = {
       fontFamily: {
         sans: ["var(--font-inter)", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "Menlo", "monospace"],
+        display: ["var(--font-display)", "var(--font-inter)", "system-ui", "sans-serif"],
       },
       borderRadius: {
         card: "12px",
@@ -35,6 +36,11 @@ const config: Config = {
         "slide-up": "slideUp 250ms ease-out",
         "line-in": "lineIn 300ms ease-out forwards",
         blink: "blink 1s steps(2, start) infinite",
+        rise: "rise 900ms cubic-bezier(0.22, 1, 0.36, 1) both",
+        // backwards, not both: no transform lingers to trap position:fixed children
+        "page-in": "pageIn 600ms cubic-bezier(0.22, 1, 0.36, 1) backwards",
+        marquee: "marquee 40s linear infinite",
+        "scroll-cue": "scrollCue 1.8s ease-in-out infinite",
       },
       keyframes: {
         fadeIn: {
@@ -47,6 +53,25 @@ const config: Config = {
         },
         blink: {
           to: { visibility: "hidden" },
+        },
+        // Line-by-line headline reveal: each line rises out of an overflow-hidden mask
+        rise: {
+          "0%": { transform: "translateY(105%)" },
+          "100%": { transform: "translateY(0)" },
+        },
+        pageIn: {
+          "0%": { opacity: "0", transform: "translateY(14px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        marquee: {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-50%)" },
+        },
+        scrollCue: {
+          "0%": { transform: "scaleY(0)", transformOrigin: "top" },
+          "45%": { transform: "scaleY(1)", transformOrigin: "top" },
+          "55%": { transform: "scaleY(1)", transformOrigin: "bottom" },
+          "100%": { transform: "scaleY(0)", transformOrigin: "bottom" },
         },
         slideUp: {
           "0%": { opacity: "0", transform: "translateY(12px)" },

@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUp, Github, Linkedin, Mail } from "lucide-react";
 import { profile } from "@/content/profile";
+import { FooterCta } from "@/components/layout/FooterCta";
 
 const currentYear = new Date().getFullYear();
 
@@ -20,8 +21,9 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-border bg-bg mt-auto">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <footer className="bg-bg mt-auto">
+      <FooterCta />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 border-t border-border">
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted">
             © {currentYear} {profile.name}
@@ -40,6 +42,13 @@ export function Footer() {
           </nav>
 
           <div className="flex items-center gap-1">
+            <a
+              href="#main-content"
+              className="mr-2 inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors duration-150"
+            >
+              Back to top
+              <ArrowUp className="w-3.5 h-3.5" aria-hidden="true" />
+            </a>
             {socials.map(({ href, label, Icon, external }) => (
               <a
                 key={label}

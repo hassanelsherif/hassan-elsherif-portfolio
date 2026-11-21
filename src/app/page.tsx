@@ -1,11 +1,23 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Download, Github, Linkedin, Mail, Terminal } from "lucide-react";
-import { Badge } from "@/components/ui/Badge";
+import {
+  ArrowRight,
+  Download,
+  Github,
+  Linkedin,
+  Terminal,
+} from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
 import { Reveal } from "@/components/ui/Reveal";
-import { ProjectCard } from "@/components/projects/ProjectCard";
+import { LineReveal } from "@/components/ui/LineReveal";
+import { SectionLabel } from "@/components/ui/SectionLabel";
+import { Parallax } from "@/components/motion/Parallax";
+import { Magnetic } from "@/components/motion/Magnetic";
+import { ScrollWords } from "@/components/motion/ScrollWords";
+import { CountUp } from "@/components/motion/CountUp";
+import { TechMarquee } from "@/components/home/TechMarquee";
+import { WorkIndex } from "@/components/home/WorkIndex";
 import { TerminalCard } from "@/components/home/TerminalCard";
 import { profile } from "@/content/profile";
 import { projects } from "@/content/projects";
@@ -19,15 +31,15 @@ export const metadata: Metadata = {
 };
 
 const HIGHLIGHT_TECHS = [
-  { label: "AWS", category: "cloud" as const },
-  { label: "Terraform", category: "devops" as const },
-  { label: "Linux", category: "infra" as const },
-  { label: "Docker", category: "devops" as const },
-  { label: "Kubernetes", category: "devops" as const },
-  { label: "GitHub Actions", category: "devops" as const },
-  { label: "Bash", category: "scripting" as const },
-  { label: "Python", category: "scripting" as const },
-  { label: "Prometheus", category: "monitoring" as const },
+  "AWS",
+  "Terraform",
+  "Linux",
+  "Docker",
+  "Kubernetes",
+  "GitHub Actions",
+  "Bash",
+  "Python",
+  "Prometheus",
 ];
 
 // One principle per lab, in project order — each step links to the lab that demonstrates it
@@ -52,14 +64,14 @@ const PRINCIPLES: Record<number, { verb: string; text: string }> = {
 };
 
 export default function HomePage() {
-  // Only projects with evidence screenshots are featured on the home page
-  const featuredProjects = projects.filter((p) => p.featured && p.coverImage).slice(0, 3);
+  const orderedProjects = [...projects].sort((a, b) => a.order - b.order);
   const currentRole = roles[0];
+  const sinceYear = roles[roles.length - 1].startDate.split(" ").pop();
   const latestCert = certifications[0];
 
   return (
     <>
-      {/* ── Hero ─────────────────────────────────────────────── */}
+      {/* ── Hero: type-led, lines rise in ───────────────────────── */}
       <section aria-labelledby="hero-heading" className="relative overflow-hidden -mt-16 pt-16">
         <div
           className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
@@ -67,12 +79,11 @@ export default function HomePage() {
         >
           <div className="absolute inset-0 bg-dot-grid" />
           <div className="absolute top-0 right-0 w-[640px] h-[640px] bg-accent/15 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
-          <div className="absolute top-1/4 left-0 w-[420px] h-[420px] bg-violet-500/10 rounded-full blur-3xl -translate-x-1/2" />
         </div>
 
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 pb-20 sm:pb-24 grid gap-12 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center">
-          <div className="max-w-3xl animate-fade-in">
-            <div className="flex items-center gap-3 mb-6">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-14 pb-10 lg:min-h-[calc(100svh-4rem)] flex flex-col">
+          <div className="flex flex-wrap items-center justify-between gap-4 animate-fade-in">
+            <div className="flex items-center gap-3">
               <Link
                 href="/about"
                 className="shrink-0 rounded-full"
@@ -81,10 +92,10 @@ export default function HomePage() {
                 <Image
                   src={profile.photo}
                   alt=""
-                  width={56}
-                  height={56}
+                  width={48}
+                  height={48}
                   priority
-                  className="w-14 h-14 rounded-full object-cover ring-2 ring-accent/60 ring-offset-2 ring-offset-bg"
+                  className="w-12 h-12 rounded-full object-cover ring-2 ring-accent/60 ring-offset-2 ring-offset-bg"
                 />
               </Link>
               <Link
@@ -98,77 +109,144 @@ export default function HomePage() {
                 Open to {profile.targetRole} roles
               </Link>
             </div>
+          </div>
 
-            <h1
-              id="hero-heading"
-              className="text-4xl sm:text-5xl xl:text-6xl font-bold tracking-tight text-fg leading-[1.1]"
-            >
-              {profile.name}
-            </h1>
-            <p className="mt-3 text-xl sm:text-2xl font-medium text-accent">{profile.targetRole}</p>
-            <p className="mt-2 flex items-center gap-2 font-mono text-xs text-muted">
-              <Terminal className="w-3.5 h-3.5 text-accent" aria-hidden="true" />
-              {currentRole.title} · {currentRole.company}
-            </p>
-            <p className="mt-5 text-base sm:text-lg text-muted leading-relaxed max-w-2xl">
-              {profile.experienceSummary}
-            </p>
+          <Parallax speed={0.2} className="mt-12 sm:mt-16 lg:mt-auto">
+          <h1
+            id="hero-heading"
+            aria-label={profile.name}
+            className="font-display font-semibold text-fg tracking-[-0.045em] leading-[0.88] text-[clamp(3.5rem,14vw,11rem)]"
+          >
+            <LineReveal
+              baseDelay={120}
+              step={130}
+              lines={[
+                "Hassan",
+                <>
+                  El-Sherif<span className="text-accent">.</span>
+                </>,
+              ]}
+            />
+          </h1>
+          </Parallax>
 
-            <div className="mt-6 flex flex-wrap gap-2" aria-label="Core technologies">
-              {HIGHLIGHT_TECHS.map((t) => (
-                <Badge key={t.label} label={t.label} variant={t.category} />
-              ))}
+          <div className="mt-10 grid gap-8 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.5fr)_minmax(0,1fr)] lg:items-end border-t border-border pt-8">
+            <div className="animate-slide-up">
+              <p className="font-display text-2xl sm:text-3xl font-medium tracking-tight text-accent">
+                {profile.targetRole}
+              </p>
+              {/* Each group is unbreakable and carries its leading separator, so a wrap
+                  never strands the icon or a dot at the end of a line */}
+              <p className="mt-2 font-mono text-xs leading-relaxed text-muted">
+                <span className="whitespace-nowrap">
+                  <Terminal
+                    className="inline w-3.5 h-3.5 mr-2 -mt-0.5 text-accent"
+                    aria-hidden="true"
+                  />
+                  {currentRole.title}
+                </span>{" "}
+                <span className="whitespace-nowrap">
+                  <span className="text-accent">·</span> {currentRole.company}
+                </span>{" "}
+                <span className="whitespace-nowrap">
+                  <span className="text-accent">·</span> {profile.location}, since {sinceYear}
+                </span>
+              </p>
+              <p className="mt-4 text-base sm:text-lg text-muted leading-relaxed max-w-xl">
+                {profile.experienceSummary}
+              </p>
             </div>
 
-            <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
-              <Link href="/projects" className={buttonVariants({ size: "lg" })}>
-                View projects
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Link>
-              <a
-                href="/resume/Hassan-ElSherif-CV.pdf"
-                download
-                className={buttonVariants({ variant: "secondary", size: "lg" })}
-                aria-label="Download CV PDF"
-              >
-                <Download className="w-4 h-4" aria-hidden="true" />
-                Download CV
-              </a>
-            </div>
-
-            <div className="mt-6 flex items-center gap-4">
-              <a
-                href={profile.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub profile"
-                className="flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors duration-150"
-              >
-                <Github className="w-4 h-4" aria-hidden="true" />
-                GitHub
-              </a>
-              <a
-                href={profile.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn profile"
-                className="flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors duration-150"
-              >
-                <Linkedin className="w-4 h-4" aria-hidden="true" />
-                LinkedIn
-              </a>
+            <div className="animate-slide-up lg:justify-self-end">
+              <div className="grid grid-cols-2 gap-3 sm:flex sm:flex-wrap">
+                <Magnetic>
+                  <Link href="/projects" className={buttonVariants({ size: "lg", className: "w-full" })}>
+                    View projects
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  </Link>
+                </Magnetic>
+                <Magnetic>
+                  <a
+                    href="/resume/Hassan-ElSherif-CV.pdf"
+                    download
+                    className={buttonVariants({ variant: "secondary", size: "lg", className: "w-full" })}
+                    aria-label="Download CV PDF"
+                  >
+                    <Download className="w-4 h-4" aria-hidden="true" />
+                    Download CV
+                  </a>
+                </Magnetic>
+              </div>
+              <div className="mt-5 flex items-center gap-5 lg:justify-end">
+                <a
+                  href={profile.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="GitHub profile"
+                  className="flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors duration-150"
+                >
+                  <Github className="w-4 h-4" aria-hidden="true" />
+                  GitHub
+                </a>
+                <a
+                  href={profile.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="LinkedIn profile"
+                  className="flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors duration-150"
+                >
+                  <Linkedin className="w-4 h-4" aria-hidden="true" />
+                  LinkedIn
+                </a>
+              </div>
             </div>
           </div>
 
-          <div className="animate-slide-up lg:pl-4">
-            <TerminalCard />
-          </div>
+          <a
+            href="#profile"
+            className="mt-10 hidden lg:inline-flex items-center gap-3 self-start font-mono text-[11px] uppercase tracking-widest text-muted hover:text-accent transition-colors"
+          >
+            <span className="relative block w-px h-10 bg-border overflow-hidden" aria-hidden="true">
+              <span className="absolute inset-0 bg-accent animate-scroll-cue" />
+            </span>
+            Scroll to explore
+          </a>
         </div>
       </section>
 
-      {/* ── At a glance ──────────────────────────────────────── */}
-      <section aria-label="At a glance" className="px-4 sm:px-6 lg:px-8 pb-16 max-w-6xl mx-auto">
-        <Reveal>
+      <TechMarquee items={HIGHLIGHT_TECHS} />
+
+      {/* ── 01 Profile: statement + live terminal ──────────────── */}
+      <section
+        id="profile"
+        aria-labelledby="profile-heading"
+        className="px-4 sm:px-6 lg:px-8 py-20 sm:py-28 max-w-6xl mx-auto"
+      >
+        <div className="mb-6">
+          <SectionLabel n={1}>Profile</SectionLabel>
+        </div>
+        <div className="grid gap-12 grid-cols-[minmax(0,1fr)] lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] lg:items-center">
+          <Reveal>
+            <h2
+              id="profile-heading"
+              className="font-display text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight leading-[1.1] text-fg"
+            >
+              <ScrollWords text="I keep infrastructure boring. Codified, automated, observed and recoverable, with evidence for every claim." />
+            </h2>
+            <Link
+              href="/about"
+              className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-accent hover:underline"
+            >
+              More about me
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+          </Reveal>
+          <Reveal delay={120}>
+            <TerminalCard />
+          </Reveal>
+        </div>
+
+        <Reveal className="mt-16">
           <dl className="grid grid-cols-2 lg:grid-cols-4 gap-px overflow-hidden rounded-card border border-border bg-border">
             {[
               { value: "3+ years", label: "Cloud infrastructure & system administration" },
@@ -187,7 +265,9 @@ export default function HomePage() {
               <div key={stat.value} className="bg-surface p-5">
                 <dt className="sr-only">{stat.label}</dt>
                 <dd>
-                  <p className="text-lg font-bold text-fg leading-snug">{stat.value}</p>
+                  <p className="font-display text-lg font-semibold text-fg leading-snug">
+                    <CountUp value={stat.value} />
+                  </p>
                   <p className="mt-1 text-sm text-muted">
                     {stat.label}
                     {stat.href && (
@@ -206,119 +286,99 @@ export default function HomePage() {
         </Reveal>
       </section>
 
-      {/* ── Featured projects ────────────────────────────────── */}
+      {/* ── 02 Selected work: editorial index ───────────────────── */}
       <section
         aria-labelledby="projects-heading"
-        className="px-4 sm:px-6 lg:px-8 py-16 max-w-6xl mx-auto border-t border-border"
+        className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 max-w-6xl mx-auto"
       >
-        <div className="flex items-end justify-between gap-4 mb-8">
+        <div className="flex flex-wrap items-end justify-between gap-6 mb-10">
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">
-              Lab projects
-            </p>
-            <h2 id="projects-heading" className="text-2xl sm:text-3xl font-bold text-fg">
-              DevOps Portfolio
+            <div className="mb-4">
+              <SectionLabel n={2}>Lab projects</SectionLabel>
+            </div>
+            <h2
+              id="projects-heading"
+              className="font-display text-5xl sm:text-7xl font-semibold tracking-[-0.04em] leading-none text-fg"
+            >
+              Selected work
+              <sup className="ml-2 align-super font-mono text-base sm:text-lg font-normal tracking-normal text-muted">
+                ({String(projects.length).padStart(2, "0")})
+              </sup>
             </h2>
           </div>
           <Link
             href="/projects"
             className="shrink-0 text-sm text-accent hover:underline flex items-center gap-1"
           >
-            All {projects.length} projects
+            Browse and filter all projects
             <ArrowRight className="w-3.5 h-3.5" aria-hidden="true" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {featuredProjects.map((project, i) => (
-            <Reveal key={project.slug} delay={i * 80}>
-              <ProjectCard project={project} />
-            </Reveal>
-          ))}
-        </div>
+        <Reveal>
+          <WorkIndex projects={orderedProjects} />
+        </Reveal>
       </section>
 
-      {/* ── How I work ───────────────────────────────────────── */}
+      {/* ── 03 How I work ───────────────────────────────────────── */}
       <section
         aria-labelledby="approach-heading"
-        className="px-4 sm:px-6 lg:px-8 py-16 max-w-6xl mx-auto border-t border-border"
+        className="px-4 sm:px-6 lg:px-8 py-20 sm:py-24 max-w-6xl mx-auto"
       >
-        <div className="mb-8 max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-widest text-accent mb-1">Approach</p>
-          <h2 id="approach-heading" className="text-2xl sm:text-3xl font-bold text-fg">
-            How I work
-          </h2>
-          <p className="mt-3 text-muted leading-relaxed">
+        <div className="mb-10 grid gap-6 lg:grid-cols-2 lg:items-end">
+          <div>
+            <div className="mb-4">
+              <SectionLabel n={3}>Approach</SectionLabel>
+            </div>
+            <h2
+              id="approach-heading"
+              className="font-display text-5xl sm:text-7xl font-semibold tracking-[-0.04em] leading-none text-fg"
+            >
+              How I work
+            </h2>
+          </div>
+          <p className="text-muted leading-relaxed max-w-md lg:justify-self-end">
             Each lab covers one step of the same loop. Click a step to see it done.
           </p>
         </div>
 
         <ol className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-          {[...projects]
-            .sort((a, b) => a.order - b.order)
-            .map((project, i) => {
-              const principle = PRINCIPLES[project.order];
-              if (!principle) return null;
-              return (
-                <li key={project.slug}>
-                  <Reveal delay={i * 70} className="h-full">
-                    <Link
-                      href={`/projects/${project.slug}`}
-                      className="group relative flex flex-col h-full p-5 rounded-card bg-surface border border-border hover:border-accent/50 transition-colors"
-                    >
-                      <span className="font-mono text-xs text-muted">
-                        {String(i + 1).padStart(2, "0")}
-                        <span className="text-border mx-1.5">/</span>
-                        {projectCode(project.order)}
-                      </span>
-                      <span className="mt-3 text-lg font-semibold text-fg group-hover:text-accent transition-colors">
-                        {principle.verb}
-                      </span>
-                      <span className="mt-2 text-sm text-muted leading-relaxed">
-                        {principle.text}
-                      </span>
-                      <span className="mt-auto pt-4 inline-flex items-center gap-1 text-xs font-medium text-accent">
-                        {project.title}
-                        <ArrowRight
-                          className="w-3 h-3 shrink-0 transition-transform group-hover:translate-x-0.5"
-                          aria-hidden="true"
-                        />
-                      </span>
-                    </Link>
-                  </Reveal>
-                </li>
-              );
-            })}
+          {orderedProjects.map((project, i) => {
+            const principle = PRINCIPLES[project.order];
+            if (!principle) return null;
+            return (
+              <li key={project.slug}>
+                <Reveal delay={i * 70} className="h-full">
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="group relative flex flex-col h-full p-5 rounded-card bg-surface border border-border hover:border-accent/50 transition-colors"
+                  >
+                    <span className="font-mono text-xs text-muted">
+                      {String(i + 1).padStart(2, "0")}
+                      <span className="text-border mx-1.5">/</span>
+                      {projectCode(project.order)}
+                    </span>
+                    <span className="mt-6 font-display text-2xl font-semibold tracking-tight text-fg group-hover:text-accent transition-colors">
+                      {principle.verb}
+                    </span>
+                    <span className="mt-2 text-sm text-muted leading-relaxed">
+                      {principle.text}
+                    </span>
+                    <span className="mt-auto pt-4 inline-flex items-center gap-1 text-xs font-medium text-accent">
+                      {project.title}
+                      <ArrowRight
+                        className="w-3 h-3 shrink-0 transition-transform group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
+                    </span>
+                  </Link>
+                </Reveal>
+              </li>
+            );
+          })}
         </ol>
       </section>
 
-      {/* ── CTA strip ────────────────────────────────────────── */}
-      <section
-        aria-labelledby="cta-heading"
-        className="px-4 sm:px-6 lg:px-8 pb-20 pt-4 max-w-6xl mx-auto"
-      >
-        <Reveal>
-          <div className="relative overflow-hidden rounded-card border border-accent/20 bg-gradient-to-br from-accent/10 to-accent/5 dark:from-accent/20 dark:to-accent/5 p-8 sm:p-12 text-center">
-            <div
-              className="pointer-events-none absolute inset-0 bg-dot-grid opacity-60"
-              aria-hidden="true"
-            />
-            <div className="relative">
-              <h2 id="cta-heading" className="text-2xl sm:text-3xl font-bold text-fg mb-3">
-                Available for new opportunities
-              </h2>
-              <p className="text-muted mb-8 max-w-xl mx-auto">
-                Looking for mid-level Cloud / DevOps Engineer roles. Happy to discuss
-                infrastructure, architecture, or operational challenges.
-              </p>
-              <Link href="/contact" className={buttonVariants({ size: "lg" })}>
-                <Mail className="w-4 h-4" aria-hidden="true" />
-                Get in touch
-              </Link>
-            </div>
-          </div>
-        </Reveal>
-      </section>
     </>
   );
 }

@@ -11,10 +11,11 @@ export const metadata: Metadata = {
 
 export default function ProjectsPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-20">
       <SectionHeading
         label="Lab projects"
-        title="DevOps Portfolio"
+        count={projects.length}
+        title="Selected work"
         subtitle="Five personal labs built from scratch. Each includes versioned infrastructure code, an architecture diagram, a runbook and screenshots from a real run. These are hands-on labs, not production work for an employer."
       />
 

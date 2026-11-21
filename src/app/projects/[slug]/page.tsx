@@ -4,14 +4,9 @@ import Link from "next/link";
 import {
   ArrowLeft,
   ArrowRight,
-  BookOpen,
-  Camera,
   CheckCircle,
   ExternalLink,
   Github,
-  Layers,
-  ShieldCheck,
-  Terminal,
 } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { Chip } from "@/components/ui/Chip";
@@ -31,6 +26,9 @@ import {
 import { evidence } from "@/content/evidence";
 import { architectureDiagrams } from "@/content/architecture";
 import { projectCode } from "@/lib/utils";
+import { SectionTitle } from "@/components/ui/SectionLabel";
+import { LineReveal } from "@/components/ui/LineReveal";
+import { CountUp } from "@/components/motion/CountUp";
 
 interface Props {
   params: { slug: string };
@@ -47,23 +45,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: project.title,
     description: project.problem,
   };
-}
-
-function SectionTitle({
-  id,
-  icon: Icon,
-  children,
-}: {
-  id: string;
-  icon?: React.ComponentType<{ className?: string }>;
-  children: React.ReactNode;
-}) {
-  return (
-    <h2 id={id} className="flex items-center gap-2 text-xl font-semibold text-fg mb-4">
-      {Icon && <Icon className="w-5 h-5 text-accent" aria-hidden="true" />}
-      {children}
-    </h2>
-  );
 }
 
 export default function ProjectDetailPage({ params }: Props) {
@@ -90,23 +71,35 @@ export default function ProjectDetailPage({ params }: Props) {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 sm:pt-16 pb-20">
       <Link
         href="/projects"
-        className="inline-flex items-center gap-1.5 text-sm text-muted hover:text-accent transition-colors mb-8"
+        className="group inline-flex items-center gap-1.5 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors mb-10"
       >
-        <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+        <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
         All projects
       </Link>
 
       {/* Header */}
-      <header className="mb-10 max-w-3xl">
-        <div className="flex items-center gap-3 mb-3">
-          <span className="font-mono text-xs text-muted">{projectCode(project.order)}</span>
+      <header className="mb-14">
+        <div className="flex items-center gap-3 mb-6 animate-fade-in">
+          <span className="font-mono text-xs uppercase tracking-widest text-accent">
+            Case study <span className="text-muted mx-1">—</span> {projectCode(project.order)}
+          </span>
           <StatusBadge status={project.status} />
         </div>
-        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-fg mb-4">{project.title}</h1>
-        <p className="text-lg text-muted leading-relaxed mb-6">{project.problem}</p>
+        <h1 className="font-display font-semibold tracking-[-0.045em] leading-[0.95] text-fg text-[clamp(2.5rem,7vw,5.5rem)] max-w-5xl">
+          <LineReveal
+            lines={[
+              <>
+                {project.title}
+                <span className="text-accent">.</span>
+              </>,
+            ]}
+          />
+        </h1>
+        <div className="mt-10 pt-6 border-t border-border animate-slide-up">
+        <p className="text-lg text-muted leading-relaxed mb-6 max-w-3xl">{project.problem}</p>
         <div className="flex flex-wrap gap-1.5 mb-6" aria-label="Technologies">
           {project.techCategories.map((t) => (
             <Badge key={t.label} label={t.label} variant={t.category} />
@@ -123,6 +116,7 @@ export default function ProjectDetailPage({ params }: Props) {
           View repository
           <ExternalLink className="w-3.5 h-3.5" aria-hidden="true" />
         </a>
+        </div>
       </header>
 
       {/* Results strip */}
@@ -133,7 +127,9 @@ export default function ProjectDetailPage({ params }: Props) {
               <div key={r.label} className="bg-surface p-5">
                 <dt className="sr-only">{r.label}</dt>
                 <dd>
-                  <p className="font-mono text-2xl font-bold text-accent break-words">{r.value}</p>
+                  <p className="font-display text-3xl font-semibold tracking-tight text-accent break-words">
+                    <CountUp value={r.value} />
+                  </p>
                   <p className="mt-1 text-sm text-muted">{r.label}</p>
                 </dd>
               </div>
@@ -144,14 +140,14 @@ export default function ProjectDetailPage({ params }: Props) {
       )}
 
       <div className="grid gap-12 lg:grid-cols-[minmax(0,1fr)_200px]">
-        <div className="min-w-0 space-y-12">
+        <div className="min-w-0 space-y-16">
           <section aria-labelledby="problem">
-            <SectionTitle id="problem">Problem & approach</SectionTitle>
+            <SectionTitle n={1} id="problem">Problem & approach</SectionTitle>
             <p className="text-muted leading-relaxed">{project.description}</p>
           </section>
 
           <section aria-labelledby="architecture">
-            <SectionTitle id="architecture" icon={Layers}>
+            <SectionTitle n={2} id="architecture">
               Architecture
             </SectionTitle>
             {diagram ? (
@@ -175,7 +171,7 @@ export default function ProjectDetailPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="implementation">
-            <SectionTitle id="implementation" icon={Terminal}>
+            <SectionTitle n={3} id="implementation">
               Implementation
             </SectionTitle>
             <div className="space-y-4">
@@ -186,7 +182,7 @@ export default function ProjectDetailPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="security">
-            <SectionTitle id="security" icon={ShieldCheck}>
+            <SectionTitle n={4} id="security">
               Security & trade-offs
             </SectionTitle>
             <ul className="space-y-3">
@@ -200,7 +196,7 @@ export default function ProjectDetailPage({ params }: Props) {
           </section>
 
           <section aria-labelledby="lessons">
-            <SectionTitle id="lessons" icon={BookOpen}>
+            <SectionTitle n={5} id="lessons">
               Lessons learned
             </SectionTitle>
             <ol className="space-y-3">
@@ -217,7 +213,7 @@ export default function ProjectDetailPage({ params }: Props) {
 
           {gallery && (
             <section aria-labelledby="evidence">
-              <SectionTitle id="evidence" icon={Camera}>
+              <SectionTitle n={6} id="evidence">
                 Evidence gallery
               </SectionTitle>
               <p className="text-sm text-muted mb-6">{gallery.intro}</p>
@@ -226,7 +222,7 @@ export default function ProjectDetailPage({ params }: Props) {
           )}
 
           <section aria-labelledby="stack">
-            <SectionTitle id="stack">Full stack</SectionTitle>
+            <SectionTitle n={gallery ? 7 : 6} id="stack">Full stack</SectionTitle>
             <div className="flex flex-wrap gap-2">
               {project.technologies.map((t) => (
                 <Chip key={t}>{t}</Chip>
@@ -243,17 +239,17 @@ export default function ProjectDetailPage({ params }: Props) {
       </div>
 
       {/* Prev / next */}
-      <nav aria-label="More projects" className="mt-16 pt-8 border-t border-border grid gap-4 sm:grid-cols-2">
+      <nav aria-label="More projects" className="mt-24 grid gap-x-10 sm:grid-cols-2">
         {prev ? (
           <Link
             href={`/projects/${prev.slug}`}
-            className="group p-5 rounded-card border border-border bg-surface hover:border-accent/50 transition-colors"
+            className="group py-6 sm:py-8 border-t border-border"
           >
-            <span className="flex items-center gap-1 text-xs text-muted">
+            <span className="flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-muted">
               <ArrowLeft className="w-3 h-3 transition-transform group-hover:-translate-x-0.5" aria-hidden="true" />
               Previous · {projectCode(prev.order)}
             </span>
-            <span className="mt-1 block font-semibold text-fg group-hover:text-accent transition-colors">
+            <span className="mt-3 block font-display text-2xl sm:text-4xl font-semibold tracking-[-0.03em] leading-tight text-fg group-hover:text-accent transition-colors">
               {prev.title}
             </span>
           </Link>
@@ -263,13 +259,13 @@ export default function ProjectDetailPage({ params }: Props) {
         {next && (
           <Link
             href={`/projects/${next.slug}`}
-            className="group p-5 rounded-card border border-border bg-surface hover:border-accent/50 transition-colors sm:text-right"
+            className="group py-6 sm:py-8 border-t border-border sm:text-right"
           >
-            <span className="flex items-center gap-1 text-xs text-muted sm:justify-end">
+            <span className="flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-muted sm:justify-end">
               Next · {projectCode(next.order)}
               <ArrowRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
             </span>
-            <span className="mt-1 block font-semibold text-fg group-hover:text-accent transition-colors">
+            <span className="mt-3 block font-display text-2xl sm:text-4xl font-semibold tracking-[-0.03em] leading-tight text-fg group-hover:text-accent transition-colors">
               {next.title}
             </span>
           </Link>

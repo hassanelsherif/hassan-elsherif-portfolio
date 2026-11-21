@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionTitle } from "@/components/ui/SectionLabel";
 import { roles, certifications, education } from "@/content/experience";
 import { Reveal } from "@/components/ui/Reveal";
-import { Briefcase, GraduationCap, Award, CheckCircle } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Experience",
@@ -12,147 +13,122 @@ export const metadata: Metadata = {
 
 export default function ExperiencePage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-20">
       <SectionHeading
         label="Career"
-        title="Professional Experience"
+        title="Experience"
         subtitle="Three roles at Shelter Technology, from IT support to managing AWS infrastructure for AI-powered computer vision applications."
       />
 
-      {/* Timeline */}
-      <section aria-labelledby="roles-heading" className="mb-16">
-        <h2 id="roles-heading" className="sr-only">
+      {/* Roles: editorial rows, dates on the left, role in display type on the right */}
+      <section aria-labelledby="roles-heading" className="mb-24">
+        <SectionTitle n={1} label="Roles" id="roles-heading">
           Employment history
-        </h2>
-        <div className="relative">
-          {/* Vertical line */}
-          <div
-            className="absolute left-[18px] top-6 bottom-6 w-px bg-gradient-to-b from-accent/60 via-border to-border hidden sm:block"
-            aria-hidden="true"
-          />
+        </SectionTitle>
 
-          <div className="space-y-8">
-            {roles.map((role, idx) => (
-              <article
-                key={`${role.title}-${role.startDate}`}
-                className="sm:pl-12 relative"
-              >
-                {/* Timeline dot */}
-                <div
-                  className="absolute left-[11px] top-6 w-[15px] h-[15px] rounded-full border-2 hidden sm:block border-accent bg-bg"
-                  aria-hidden="true"
-                >
-                  {role.current && (
-                    <span className="absolute inset-[2px] rounded-full bg-accent" />
-                  )}
-                </div>
-
-                <Reveal>
-                <div className="p-6 rounded-card bg-surface border border-border hover:border-accent/30 transition-colors">
-                  {/* Header */}
-                  <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 mb-4">
-                    <div>
-                      <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-base font-semibold text-fg">
-                          {role.title}
-                        </h3>
-                        {role.current && (
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-emerald-100 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/40">
-                            <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" aria-hidden="true" />
-                            Current
-                          </span>
-                        )}
-                      </div>
-                      <div className="flex items-center gap-1.5 mt-1">
-                        <Briefcase className="w-3.5 h-3.5 text-muted" aria-hidden="true" />
-                        <p className="text-sm text-muted">{role.company}</p>
-                      </div>
-                    </div>
-                    <time className="font-mono text-xs text-muted whitespace-nowrap">
+        <ol className="border-t border-border">
+          {roles.map((role, idx) => (
+            <li key={`${role.title}-${role.startDate}`} className="border-b border-border">
+              <Reveal>
+                <article className="grid gap-4 py-10 grid-cols-[minmax(0,1fr)] md:grid-cols-[13rem_minmax(0,1fr)] md:gap-10">
+                  <div className="flex md:flex-col items-baseline md:items-start gap-3">
+                    <span className="font-mono text-xs text-muted">
+                      {String(roles.length - idx).padStart(2, "0")}
+                    </span>
+                    <time className="font-mono text-sm text-fg whitespace-nowrap">
                       {role.startDate} – {role.current ? "Present" : role.endDate}
                     </time>
+                    {role.current && (
+                      <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                        <span className="relative flex w-1.5 h-1.5" aria-hidden="true">
+                          <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-60 animate-ping" />
+                          <span className="relative inline-flex w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                        </span>
+                        Current
+                      </span>
+                    )}
                   </div>
 
-                  {/* Accomplishments */}
-                  <ul className="space-y-2" aria-label={`Accomplishments at ${role.title}`}>
-                    {role.accomplishments.map((item) => (
-                      <li key={item} className="flex items-start gap-2.5">
-                        <CheckCircle
-                          className="w-4 h-4 text-accent shrink-0 mt-0.5"
-                          aria-hidden="true"
-                        />
-                        <span className="text-sm text-muted leading-relaxed">
+                  <div>
+                    <h3 className="font-display text-2xl sm:text-4xl font-semibold tracking-[-0.03em] leading-tight text-fg">
+                      {role.title}
+                    </h3>
+                    <p className="mt-1 font-mono text-xs uppercase tracking-widest text-accent">
+                      {role.company}
+                    </p>
+                    <ul
+                      className="mt-6 grid gap-3 sm:grid-cols-2 sm:gap-x-8"
+                      aria-label={`Accomplishments at ${role.title}`}
+                    >
+                      {role.accomplishments.map((item) => (
+                        <li
+                          key={item}
+                          className="relative pl-5 text-sm text-muted leading-relaxed before:absolute before:left-0 before:top-[0.6em] before:w-2 before:h-px before:bg-accent"
+                        >
                           {item}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                </Reveal>
-              </article>
-            ))}
-          </div>
-        </div>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              </Reveal>
+            </li>
+          ))}
+        </ol>
       </section>
 
       {/* Education + Certifications */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-10">
         <section aria-labelledby="edu-heading">
-          <div className="flex items-center gap-2 mb-5">
-            <GraduationCap className="w-5 h-5 text-accent" aria-hidden="true" />
-            <h2 id="edu-heading" className="text-lg font-semibold text-fg">
-              Education
-            </h2>
-          </div>
-          <div className="space-y-4">
+          <SectionTitle n={2} label="Education" id="edu-heading">
+            Education
+          </SectionTitle>
+          <ul className="border-t border-border">
             {education.map((edu) => (
-              <div
-                key={edu.degree}
-                className="p-5 rounded-card bg-surface border border-border"
-              >
-                <p className="font-semibold text-sm text-fg">{edu.degree}</p>
+              <li key={edu.degree} className="py-5 border-b border-border">
+                <p className="font-display text-lg font-semibold tracking-tight text-fg">
+                  {edu.degree}
+                </p>
                 <p className="text-sm text-muted mt-0.5">{edu.institution}</p>
-                <p className="font-mono text-xs text-muted mt-1">
+                <p className="font-mono text-xs text-muted mt-2">
                   {edu.startYear} – {edu.endYear}
                 </p>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
 
         <section aria-labelledby="certs-heading">
-          <div className="flex items-center gap-2 mb-5">
-            <Award className="w-5 h-5 text-accent" aria-hidden="true" />
-            <h2 id="certs-heading" className="text-lg font-semibold text-fg">
-              Certifications
-            </h2>
-          </div>
-          <div className="space-y-4">
+          <SectionTitle n={3} label="Credentials" id="certs-heading">
+            Certifications
+          </SectionTitle>
+          <ul className="border-t border-border">
             {certifications.map((cert) => (
-              <div
-                key={cert.name}
-                className="p-5 rounded-card bg-surface border border-border"
-              >
-                <p className="font-semibold text-sm text-fg">{cert.name}</p>
-                {cert.issuer && (
-                  <p className="text-sm text-muted mt-0.5">{cert.issuer}</p>
-                )}
-                <div className="flex items-center justify-between mt-1">
+              <li key={cert.name} className="py-5 border-b border-border">
+                <p className="font-display text-lg font-semibold tracking-tight text-fg">
+                  {cert.name}
+                </p>
+                {cert.issuer && <p className="text-sm text-muted mt-0.5">{cert.issuer}</p>}
+                <div className="flex items-center justify-between mt-2">
                   <p className="font-mono text-xs text-accent">{cert.year}</p>
                   {cert.verifyUrl && (
                     <a
                       href={cert.verifyUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-xs text-muted hover:text-accent underline transition-colors"
+                      className="group inline-flex items-center gap-1 font-mono text-xs uppercase tracking-widest text-muted hover:text-accent transition-colors"
                     >
-                      Verify ↗
+                      Verify
+                      <ArrowUpRight
+                        className="w-3.5 h-3.5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
+                        aria-hidden="true"
+                      />
                     </a>
                   )}
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </section>
       </div>
     </div>

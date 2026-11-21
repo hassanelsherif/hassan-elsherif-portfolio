@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, Github } from "lucide-react";
+import { ArrowUpRight, Github } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
           <StatusBadge status={project.status} />
         </div>
 
-        <h3 className="text-base font-semibold text-fg mb-2 group-hover:text-accent transition-colors duration-150">
+        <h3 className="font-display text-xl font-semibold tracking-tight leading-snug text-fg mb-2 group-hover:text-accent transition-colors duration-150">
           <Link
             href={`/projects/${project.slug}`}
             className="outline-none after:absolute after:inset-0 after:content-['']"
@@ -64,7 +64,7 @@ export function ProjectCard({ project, className }: ProjectCardProps) {
             aria-hidden="true"
           >
             Case study
-            <ArrowRight className="w-3 h-3" />
+            <ArrowUpRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-45" />
           </span>
         </div>
       </div>

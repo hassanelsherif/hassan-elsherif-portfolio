@@ -4,9 +4,17 @@ import { buttonVariants } from "@/components/ui/Button";
 
 export default function NotFound() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-[60vh] px-4 text-center">
-      <p className="font-mono text-6xl font-bold text-accent mb-4">404</p>
-      <h1 className="text-2xl font-semibold text-fg mb-3">Page not found</h1>
+    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 py-16 text-center">
+      <p className="font-mono text-xs uppercase tracking-widest text-accent mb-6">Error · Not found</p>
+      <p
+        className="font-display font-semibold tracking-[-0.06em] leading-none text-outline text-[clamp(7rem,30vw,16rem)] mb-6"
+        aria-hidden="true"
+      >
+        404
+      </p>
+      <h1 className="font-display text-3xl sm:text-4xl font-semibold tracking-tight text-fg mb-3">
+        Page not found<span className="text-accent">.</span>
+      </h1>
       <p className="text-muted mb-8 max-w-sm">
         This page doesn&apos;t exist or may have been moved. Try navigating back to the home or projects page.
       </p>

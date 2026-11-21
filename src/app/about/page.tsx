@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, Briefcase, Code2, Lightbulb, MapPin, Target, Award } from "lucide-react";
+import { ArrowRight, Briefcase, MapPin, Target, Award } from "lucide-react";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { SectionTitle } from "@/components/ui/SectionLabel";
 import { Card } from "@/components/ui/Card";
 import { Chip } from "@/components/ui/Chip";
 import { Reveal } from "@/components/ui/Reveal";
@@ -35,47 +36,51 @@ export default function AboutPage() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-      <SectionHeading label="Background" title="About Hassan" />
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-20 pb-20">
+      <SectionHeading label="About" title="About Hassan" />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-12">
+        <div className="lg:col-span-2 space-y-20">
           {/* Story replaces the summary subtitle, which repeated the home page word for word */}
-          <section aria-label="My story" className="space-y-4">
-            {profile.story.map((para, i) => (
-              <p
-                key={i}
-                className={i === 0 ? "text-lg text-fg/90 leading-relaxed" : "text-muted leading-relaxed"}
-              >
-                {para}
-              </p>
-            ))}
+          <section aria-labelledby="story-heading">
+            <SectionTitle n={1} label="Story" id="story-heading">
+              From the support desk to AWS
+            </SectionTitle>
+            <div className="space-y-5">
+              {profile.story.map((para, i) => (
+                <p
+                  key={i}
+                  className={
+                    i === 0
+                      ? "font-display text-xl sm:text-2xl font-medium tracking-tight text-fg leading-snug"
+                      : "text-muted leading-relaxed"
+                  }
+                >
+                  {para}
+                </p>
+              ))}
+            </div>
           </section>
 
           <section aria-labelledby="approach-heading">
-            <h2
-              id="approach-heading"
-              className="flex items-center gap-2 text-lg font-semibold text-fg mb-4"
-            >
-              <Lightbulb className="w-5 h-5 text-accent" aria-hidden="true" />
+            <SectionTitle n={2} label="Approach" id="approach-heading">
               Engineering approach
-            </h2>
-            <p className="text-muted leading-relaxed">{profile.engineeringApproach}</p>
+            </SectionTitle>
+            <p className="text-muted leading-relaxed border-l-2 border-accent pl-5">
+              {profile.engineeringApproach}
+            </p>
           </section>
 
           <section aria-labelledby="skills-heading">
-            <h2
-              id="skills-heading"
-              className="flex items-center gap-2 text-lg font-semibold text-fg mb-5"
-            >
-              <Code2 className="w-5 h-5 text-accent" aria-hidden="true" />
+            <SectionTitle n={3} label="Toolkit" id="skills-heading">
               Skills & technologies
-            </h2>
+            </SectionTitle>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {skillCategories.map((cat, i) => (
                 <Reveal key={cat.label} delay={(i % 2) * 70}>
                   <Card className="h-full p-4">
-                    <p className="text-xs font-semibold uppercase tracking-wide text-muted mb-3">
+                    <p className="font-mono text-xs uppercase tracking-widest text-muted mb-3">
+                      <span className="text-accent mr-2">{String(i + 1).padStart(2, "0")}</span>
                       {cat.label}
                     </p>
                     <div className="flex flex-wrap gap-1.5">
@@ -103,7 +108,7 @@ export default function AboutPage() {
               />
               <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent" />
               <p className="absolute bottom-4 left-5 right-5 text-white">
-                <span className="block text-lg font-semibold">{profile.name}</span>
+                <span className="block font-display text-xl font-semibold tracking-tight">{profile.name}</span>
                 <span className="block text-sm text-white/80">{profile.targetRole}</span>
               </p>
             </div>

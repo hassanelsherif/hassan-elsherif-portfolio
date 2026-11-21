@@ -48,7 +48,7 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
   return (
     <div>
       <div className="mb-8">
-        <p className="text-xs font-medium text-muted mb-2 uppercase tracking-wide">Technology</p>
+        <p className="font-mono text-xs text-muted mb-3 uppercase tracking-widest">Filter by technology</p>
         <div className="flex flex-wrap gap-2" role="group" aria-label="Filter by technology">
           {options.map(({ tech, count }) => {
             const active = techFilter === tech;
@@ -58,18 +58,18 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
                 type="button"
                 onClick={() => setTechFilter(tech)}
                 className={cn(
-                  "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-mono font-medium border transition-colors duration-150",
+                  "inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium border transition-colors duration-150",
                   active
                     ? "bg-accent text-accent-fg border-accent"
-                    : "bg-subtle text-muted border-border hover:text-fg hover:border-accent/40"
+                    : "bg-transparent text-muted border-border hover:text-fg hover:border-accent/50"
                 )}
                 aria-pressed={active}
               >
                 {tech}
                 <span
                   className={cn(
-                    "px-1 rounded text-[10px] tabular-nums",
-                    active ? "bg-accent-fg/15" : "bg-bg/60"
+                    "px-1.5 rounded-full text-[10px] tabular-nums",
+                    active ? "bg-accent-fg/15" : "bg-subtle"
                   )}
                 >
                   {count}
@@ -80,11 +80,11 @@ export function ProjectFilter({ projects }: ProjectFilterProps) {
         </div>
       </div>
 
-      <p className="text-sm text-muted mb-6" aria-live="polite">
+      <p className="font-mono text-xs uppercase tracking-widest text-muted mb-6 pb-4 border-b border-border" aria-live="polite">
         Showing {filtered.length} of {projects.length} projects
         {techFilter !== ALL && (
           <>
-            {" "}using <span className="font-mono text-fg">{techFilter}</span> ·{" "}
+            {" "}using <span className="text-fg">{techFilter}</span> ·{" "}
             <button type="button" onClick={() => setTechFilter(ALL)} className="text-accent hover:underline">
               clear
             </button>
